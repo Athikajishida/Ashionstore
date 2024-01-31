@@ -1,0 +1,11 @@
+
+
+<h1>User Details</h1>
+<p>Email: <%= @user.email %></p>
+<p>Name: <%= @user.name %></p>
+<p>Phone: <%= @user.phone %></p>
+<p>Admin: <%= @user.admin? ? "Yes" : "No" %></p>
+<p>Blocked: <%= @user.blocked? ? "Yes" : "No" %></p>
+<%= link_to "Back", admin_index_path %>
+<%= link_to "Edit", edit_admin_path(@user) %>
+<%= link_to "Delete", admin_path(@user), method: :delete, data: { confirm: "Are you sure?" } %>
