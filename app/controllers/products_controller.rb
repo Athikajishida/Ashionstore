@@ -1,6 +1,6 @@
 class ProductsController < ApplicationController
   before_action :set_product, only: %i[ show edit update destroy ]
-
+  layout "admin_layouts"
   # GET /products or /products.json
   def index
     @products = Product.all
@@ -14,16 +14,22 @@ class ProductsController < ApplicationController
   def new
     @product = Product.new
     @categories = Category.all
+    @colors = Color.all
+    @sizes = Size.all
   end
 
   # GET /products/1/edit
   def edit
     @categories = Category.all
+    @colors = Color.all
+    @sizes = Size.all
 
   end
 
   # POST /products or /products.json
   def create
+        binding.pry
+
     @product = Product.new(product_params)
 
     respond_to do |format|
@@ -67,7 +73,13 @@ class ProductsController < ApplicationController
     end
 
     def product_params
-      params.require(:product).permit(:name, :description, :image, :category_id)
+      params.require(:product).permit(
+        :name,
+        :description,
+        :image,
+        # :category_id,
+        # prices_attributes: [:id, :color_id, :size_id, :price, :quantity, :_destroy]
+      )
     end
     
 end

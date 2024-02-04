@@ -20,16 +20,19 @@
     <%= form.label :description, style: "display: block" %>
     <%= form.text_area :description %>
   </div>
-  <div>
-  <%= form.label :category_id, style: "display: block" %>
-  <%= form.collection_select :category_id, @categories, :id, :category_name, prompt: "Select a category" %>
-</div>
 
-<div>
+  <div>
+    <%= form.label :category_id, style: "display: block" %>
+    <%= form.collection_select :category_id, @categories, :id, :category_name %>
+
+  </div>
+
+  <div>
     <%= form.label :image, style: "display: block" %>
     <%= form.file_field :image %>
   </div>
 
+  
 
   <div>
     <%= form.submit %>

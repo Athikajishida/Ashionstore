@@ -1,14 +1,38 @@
-<p style="color: green"><%= notice %></p>
 
-<h1>Products</h1>
 
-<div id="products">
-  <% @products.each do |product| %>
+
+
+
+  <div class="content_body" id="content_body">
+      <div class="col-lg-3 col-xs-12 col-sm-6">
+        <div class="itemselect_filter green">
+          <i class="fa fa-list"></i>
+            <%= link_to "New product", new_product_path %>
+        </div>
+      </div>
+      <div class="table_data_check">
+        <div class="table_head_sec">
+          <h2>Products</h2>
+        </div>
+        <div class="table_overflow">
+          <table id="table_filter" class="tablenormal">
+            <thead>
+              <tr>
+                <th class="sort_table_row">Name</th>
+                <th class="sort_table_row">Description</th>
+                <th>View</th>
+              </tr>
+            </thead>
+            <tbody>
+               <% @products.each do |product| %>
     <%= render product %>
     <p>
       <%= link_to "Show this product", product %>
     </p>
   <% end %>
-</div>
-
-<%= link_to "New product", new_product_path %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>

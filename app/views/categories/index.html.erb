@@ -1,14 +1,33 @@
-<p style="color: green"><%= notice %></p>
 
-<h1>Categories</h1>
-
-<div id="categories">
-  <% @categories.each do |category| %>
-    <%= render category %>
-    <p>
-      <%= link_to "Show this category", category %>
-    </p>
-  <% end %>
-</div>
-
-<%= link_to "New category", new_category_path %>
+  <div class="content_body" id="content_body">
+      <div class="col-lg-3 col-xs-12 col-sm-6">
+        <div class="itemselect_filter green">
+          <i class="fa fa-list"></i>
+          <%= link_to "New category", new_category_path %>
+        </div>
+      </div>
+      <div class="table_data_check">
+        <div class="table_head_sec">
+          <h2>Category Details</h2>
+        </div>
+        <div class="table_overflow">
+          <table id="table_filter" class="tablenormal">
+            <thead>
+              <tr>
+                <th class="sort_table_row">Name</th>
+                <th class="sort_table_row">Description</th>
+                <th>View</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @categories.each do |category| %>
+              <%= render category %>
+              <tr>
+              </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>

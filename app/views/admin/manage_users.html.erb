@@ -1,33 +1,47 @@
-<!-- app/views/admin/manage_users.html.erb -->
 
-<h1>User Management</h1>
+  <div class="content_body" id="content_body">
+      <div class="col-lg-3 col-xs-12 col-sm-6">
+        <div class="itemselect_filter green">
+          <i class="fa fa-list"></i>
+          <%= link_to "New category", new_category_path %>
+        </div>
+      </div>
+      <div class="table_data_check">
+        <div class="table_head_sec">
+          <h2>Category Details</h2>
+        </div>
+        <div class="table_overflow">
+          <table id="table_filter" class="tablenormal">
+            <thead>
+              <tr>
+                <th class="sort_table_row">ID</th>
+                <th class="sort_table_row">EMAIL</th>
+                <th class="sort_table_row">STATUS</th>
+                <th class="sort_table_row">VIEW</th>
 
-<table>
-  <thead>
-    <tr>
-      <th>ID</th>
-      <th>Email</th>
-      <th>Status</th>
-      <th>Action</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @users.each do |user| %>
-      <tr>
-        <td><%= user.id %></td>
-        <td><%= user.email %></td>
-        <td><%= user.blocked? ? 'Blocked' : 'Active' %></td>
-        <td>
-          <% if user.blocked? %>
-            <%= link_to 'Unblock', unblock_user_admin_path(user), method: :patch %>
-          <% else %>
-            <%= link_to 'Block', block_user_admin_path(user), method: :patch %>
+              </tr>
+            </thead>
+            <tbody>
+            <% @users.each do |user| %>
+              <tr>
+
+              <td><%= user.id %></td>
+              <td><%= user.email %></td>
+              <td><%= user.blocked? ? 'Blocked' : 'Active' %></td>
+              <td>
+  <label class="switch">
+    <%= button_to user.blocked? ? "Unblock User" : "Block", toggle_user_admin_path(user), method: :patch, class: "hidden", id: "toggle-btn" %>
+    <span class="slider round"></span>
+  </label>
+</td>
+
+
+            </tr>
           <% end %>
-        </td>
-         <td>
-          <%= link_to 'View', show_user_admin_path(user) %>
-        </td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  

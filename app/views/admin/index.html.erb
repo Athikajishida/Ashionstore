@@ -1,46 +1,151 @@
-
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin Panel</title>
-  <!-- Include Bootstrap CSS -->
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-</head>
-<body>
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <a class="navbar-brand" href="#">Admin Panel</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div class="collapse navbar-collapse" id="navbarNav">
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item">
-        <%= link_to "Users", manage_users_admin_index_path, class: "nav-link" %>
-      </li>
-      <li class="nav-item">
-        <%= link_to "Categories", categories_path, class: "nav-link" %>
-      </li>
-      <li class="nav-item">
-        <%= link_to "Products", products_path, class: "nav-link" %>
-      </li>
-    </ul>
-    <ul class="navbar-nav">
-      <li class="nav-item">
-    <%= button_to "Logout", destroy_user_session_path, method: :delete, class: "navbar-link", form_class: "navbar-form", remote: true %>      </li>
-    </ul>
-  </div>
-</nav>
 
-<div class="container mt-4">
-  <%= yield %>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <title>Admin Panel</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/media.css">
+</head>
+
+<div class="header_admin">
+        <a class="header_heading">
+            <span>Control</span> Panel
+        </a>
+        <nav class="head_nav">
+            <a href="javascript:;">
+                <i id="asidebard_btn" class="fa-solid fa-bars"></i>
+            </a>
+            <ul>
+                <li class="removeres">HELLO, <%= current_user.name %></li></li>
+                <li><i class="fa-solid fa-laptop"></i> ADMIN</li>
+                  <li><%= button_to "LOG OUT", destroy_user_session_path, method: :delete, class: "fa-solid fa-right-from-bracket", remote: true %></li>
+            </ul>
+        </nav>
 </div>
 
-<!-- Include Bootstrap JS and jQuery -->
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 
+    <div id="content_body_hc" class="content_body_hc">
+        <aside id="asidenav">
+
+            <div class="list_nav_box">
+                <ul class="listnav">
+
+                    <li>
+                        <a href="" class="activepage" rel="active" data-show="dashboardlist">
+                            <i class="fa-solid fa-gauge"></i>
+                            My Dashboard
+                        </a>
+                    </li>
+
+                    <li>
+                          <%= link_to manage_users_admin_index_path, class: "nav-link" do %>
+                            <i class="fa fa-plus"></i>
+                            Users
+                          <% end %>
+                        </li>
+
+                        <li>
+                          <%= link_to categories_path, class: "nav-link" do %>
+                            <i class="fa fa-users"></i>
+                            Categories
+                          <% end %>
+                        </li>
+
+                        <li>
+                          <%= link_to products_path, class: "nav-link" do %>
+                            <i class="fa fa-image"></i>
+                            Product
+                          <% end %>
+                          </li>
+                    <li>
+
+                        <a href="javascript:;" data-show="memberreport">
+                            <i class="fa fa-files-o"></i>
+                            View Sales 
+                            <i class="downarrow fa-solid fa-chevron-down"></i>
+                        </a>
+
+                        <ul class="submenus" id="memberreport">
+
+                            <li>
+                                <a href="">
+                                    <i class="fa fa-square"></i>
+                                  Total sales
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="">
+                                    <i class="fa fa-square"></i>
+                                    Sales report
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+
+                    <li>
+                        <a href="#">
+                            <i class="fa fa-envelope-o"></i>
+                           Send Email
+                        </a>
+                    </li>
+
+                  
+                </ul>
+            </div>
+        </aside>
+
+
+        <div class="content_body" id="content_body">
+            <div class="wrapper_content_body">
+                <div class="dashboard_statistic">
+                    </div>
+                </div>
+                           <%= yield %>
+            </div>
+        </div>
+    </div>
+
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://kit.fontawesome.com/6f707f910a.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css" href="plugin/table/datatables.css">
+    <script type="text/javascript" charset="utf8" src="plugin/table/datatables.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $("#imagepopup").click(function () {
+
+            })
+
+
+            $("#upload_image_tab").show();
+
+
+            $(".tab_file_upload").click(function () {
+                var showitem = $(this).attr("data-widget");
+
+                $(".tab_file_upload").removeClass("active_media_tab")
+                $(this).addClass("active_media_tab")
+
+                $(".imgae_upload_tab_popup").hide();
+                $(".upload_imga_center").hide();
+                $("#" + showitem).show();
+            })
+
+        })
+    </script>
+
+    <script src="assets/script/script.js"></script>
 </body>
+
 </html>
