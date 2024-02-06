@@ -1,27 +1,33 @@
 <%= form_with(model: category) do |form| %>
-  <% if category.errors.any? %>
-    <div style="color: red">
-      <h2><%= pluralize(category.errors.count, "error") %> prohibited this category from being saved:</h2>
-
-      <ul>
-        <% category.errors.each do |error| %>
-          <li><%= error.full_message %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
-
-  <div>
-    <%= form.label :category_name, style: "display: block" %>
-    <%= form.text_field :category_name %>
-  </div>
-
-  <div>
-    <%= form.label :category_description, style: "display: block" %>
-    <%= form.text_area :category_description %>
-  </div>
-
-  <div>
-    <%= form.submit %>
-  </div>
+<% if category.errors.any? %>
+<div style="color: red">
+  <h2><%= pluralize(category.errors.count, "error") %> prohibited this category from being saved:</h2>
+  <ul>
+    <% category.errors.each do |error| %>
+    <li><%= error.full_message %></li>
+    <% end %>
+  </ul>
+</div>
 <% end %>
+<div class="row mt-2">
+  <div class="col-md-6">
+    <div class="form_group">
+      <%= form.label :category_name, style: "display: block" %>
+      <%= form.text_field :category_name %>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="form_group">
+      <%= form.label :category_description, style: "display: block" %>
+      <%= form.text_area :category_description %>
+    </div>
+  </div>
+  <div class="col-12 text-center">
+    <%= form.submit class:"form_btn btn_green" %>
+    <%= link_to categories_path, class: "form_btn btn_warning text-decoration-none" do %>
+    Back
+    <% end %>
+  </div>
+</div>
+<% end %>
+<script src="assets/script/script.js"></script>

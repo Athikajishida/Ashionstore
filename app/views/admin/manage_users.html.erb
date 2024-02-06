@@ -29,11 +29,11 @@
               <td><%= user.email %></td>
               <td><%= user.blocked? ? 'Blocked' : 'Active' %></td>
               <td>
-  <label class="switch">
-    <%= button_to user.blocked? ? "Unblock User" : "Block", toggle_user_admin_path(user), method: :patch, class: "hidden", id: "toggle-btn" %>
-    <span class="slider round"></span>
-  </label>
-</td>
+                <label class="switch">
+                  <%= button_to user.blocked? ? "Unblock User" : "Block", toggle_user_admin_path(user), method: :patch, class: "hidden", id: "toggle-btn" %>
+                  <span class="slider round"></span>
+                </label>
+              </td>
 
 
             </tr>

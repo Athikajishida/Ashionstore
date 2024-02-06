@@ -1,10 +1,21 @@
-<h1>Editing category</h1>
 
-<%= render "form", category: @category %>
+        <div class="content_body" id="content_body">
+            <div class="wrapper_content_body">
+                <h4> New Category</h4>
+                <div class="content_box_border">
+                    <form action="" method="post">
+                        <div class="row mt-2">
+                        <%= render "form", category: @category %>
+                        <br>
+                            <div class="col-12 text-center">
+                                <%= link_to "Show this category", @category %> |
+                                <%= link_to "Back to categories", categories_path %>
+                            </div>
 
-<br>
+                        </div>
+                    </form>
+                </div>
 
-<div>
-  <%= link_to "Show this category", @category %> |
-  <%= link_to "Back to categories", categories_path %>
-</div>
+
+            </div>
+        </div>

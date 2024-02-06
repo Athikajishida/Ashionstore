@@ -1,9 +1,46 @@
-<h1>New product</h1>
 
-<%= render "form", product: @product %>
 
-<br>
 
-<div>
-  <%= link_to "Back to products", products_path %>
-</div>
+<%= render 'form' %>
+
+<%= link_to 'Back', products_path %>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const categoryDropdown = document.getElementById('product_category_id');
+  const subcategoryDropdown = document.getElementById('product_subcategory_id');
+
+  // Event listener for category dropdown change
+  categoryDropdown.addEventListener('change', function() {
+    const selectedCategoryId = this.value;
+    updateSubcategories(selectedCategoryId);
+  });
+
+  // Function to update subcategories based on the selected category
+  function updateSubcategories(categoryId) {
+    const url = `/products/load_subcategories?category_id=${categoryId}`;
+    fetch(url)
+      .then(response => response.json())
+      .then(data => {
+        updateDropdown(subcategoryDropdown, data.subcategories);
+      });
+  }
+
+  // Function to update dropdown options
+  function updateDropdown(dropdown, options) {
+    // Remove existing options
+    dropdown.innerHTML = '';
+
+    // Add new options
+    options.forEach(option => {
+      const optionElement = document.createElement('option');
+      optionElement.value = option.id;
+      optionElement.text = option.name;
+      dropdown.appendChild(optionElement);
+    });
+  }
+
+  // Initialize subcategories based on the initial category selection
+  const initialCategoryId = categoryDropdown.value;
+  updateSubcategories(initialCategoryId);
+});
+</script>

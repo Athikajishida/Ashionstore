@@ -1,38 +1,60 @@
 
-
-
-
-
   <div class="content_body" id="content_body">
       <div class="col-lg-3 col-xs-12 col-sm-6">
         <div class="itemselect_filter green">
           <i class="fa fa-list"></i>
-            <%= link_to "New product", new_product_path %>
+          <%= link_to "New Product", new_product_path %>
         </div>
       </div>
       <div class="table_data_check">
         <div class="table_head_sec">
-          <h2>Products</h2>
+          <h2>Product Details</h2>
         </div>
         <div class="table_overflow">
-          <table id="table_filter" class="tablenormal">
+          <table  class="tablenormal">
             <thead>
               <tr>
-                <th class="sort_table_row">Name</th>
-                <th class="sort_table_row">Description</th>
-                <th>View</th>
+                 <th class="sort_table_row">Name</th>
+                  <th class="sort_table_row">Description</th>
+                  <th class="sort_table_row">Category</th>
+                  <th class="sort_table_row">Subcategory</th>
+                  <th class="sort_table_row">Size</th>
+                  <th class="sort_table_row">Color</th>
+                  <th class="sort_table_row">Image</th>
+                  <th>Actions</th>
               </tr>
             </thead>
             <tbody>
-               <% @products.each do |product| %>
-    <%= render product %>
-    <p>
-      <%= link_to "Show this product", product %>
-    </p>
-  <% end %>
+    <% @products.each do |product| %>
+              <tr>
+              <td><%= product.name %></td>
+        <td><%= product.description %></td>
+        <td><%= product.category.category_name if product.category %></td>
+        <td><%= product.subcategory.name if product.subcategory %></td>
+        <td><%= product.size.size if product.size %></td>
+        <td><%= product.color.name if product.color %></td>
+        <td><%= image_tag product.image.url if product.image.attached? %></td>
+        <td>
+          <%= link_to 'Show', product %>
+        </td>
+      </tr>
+              <% end %>
             </tbody>
           </table>
         </div>
       </div>
     </div>
   </div>
+  <script type="text/javascript">
+        $(document).ready(function() {
+            // Destroy existing DataTable instance, if any
+            if ($.fn.DataTable.isDataTable('#table_filter')) {
+                $('#table_filter').DataTable().destroy();
+            }
+
+            // Reinitialize DataTable
+            $('#table_filter').DataTable({
+                // DataTable options go here
+            });
+        });
+    </script>

@@ -1,15 +1,11 @@
 class Product < ApplicationRecord
-    belongs_to :category
-    has_many :prices
-    has_many :colors, through: :prices
-    has_many :sizes, through: :prices
-  
-    has_one_attached :image
-    
-    accepts_nested_attributes_for :prices
+  has_one_attached :image
 
-    validates :image, presence: true
-    validates :colors, presence: true
-    validates :sizes, presence: true
-  end
   
+  
+  belongs_to :category
+  belongs_to :subcategory
+  belongs_to :size
+  belongs_to :color
+  
+end

@@ -1,85 +1,86 @@
 class ProductsController < ApplicationController
-  before_action :set_product, only: %i[ show edit update destroy ]
-  layout "admin_layouts"
-  # GET /products or /products.json
-  def index
-    @products = Product.all
-  end
+    before_action :set_product, only: [:show, :edit, :update, :destroy]
+    before_action :load_subcategories, only: [:new, :create, :edit, :update]
+    layout "admin_layouts"
 
-  # GET /products/1 or /products/1.json
-  def show
-  end
+    def index
+      @products = Product.all
+    end
+  
+    def show
+    end
+ 
+    def new
+      @product = Product.new
+      respond_to do |format|
+        format.html # Render the HTML template (default behavior)
+        format.json { render json: { subcategories: @subcategories } } # Respond with JSON for AJAX requests
+      end
+    end
+ 
+    # def create
+    #     # binding.pry
+    #   @product = Product.new(product_params)
+  
+    #   if @product.save
+    #     redirect_to @product, notice: 'Product was successfully created.'
+    #   else
+    #     render :new
+    #   end
+    # end
 
-  # GET /products/new
-  def new
-    @product = Product.new
-    @categories = Category.all
-    @colors = Color.all
-    @sizes = Size.all
-  end
-
-  # GET /products/1/edit
-  def edit
-    @categories = Category.all
-    @colors = Color.all
-    @sizes = Size.all
-
-  end
-
-  # POST /products or /products.json
-  def create
-        binding.pry
-
-    @product = Product.new(product_params)
-
-    respond_to do |format|
+    def create
+      # Remove the empty string or set it to nil
+      params[:product][:subcategory_id] = nil if params[:product][:subcategory_id].blank?
+    
+      @product = Product.new(product_params)
+    
       if @product.save
-        format.html { redirect_to product_url(@product), notice: "Product was successfully created." }
-        format.json { render :show, status: :created, location: @product }
+        redirect_to @product, notice: 'Product was successfully created.'
       else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @product.errors, status: :unprocessable_entity }
+        render :new
       end
     end
-  end
+    
 
-  # PATCH/PUT /products/1 or /products/1.json
-  def update
-    respond_to do |format|
-      if @product.update(product_params)
-        format.html { redirect_to product_url(@product), notice: "Product was successfully updated." }
-        format.json { render :show, status: :ok, location: @product }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @product.errors, status: :unprocessable_entity }
+
+
+
+    def edit
+
+      end 
+      def update
+        @product = Product.find(params[:id])      
+        if @product.update(product_params)
+          redirect_to @product, notice: 'Product was successfully updated.'
+        else
+          render :edit
+        end
+      end
+      def destroy
+        @product = Product.find(params[:id])
+        @product.destroy
+        redirect_to products_url, notice: 'Product was successfully destroyed.'
+      end
+    
+    private
+    def load_subcategories
+      @categories = Category.all
+      @sizes = Size.all
+      @colors = Color.all
+      @subcategories = Subcategory.where(category_id: params[:category_id])
+    
+      respond_to do |format|
+        format.html
+        format.json { render json: { subcategories: @subcategories } }
       end
     end
-  end
-
-  # DELETE /products/1 or /products/1.json
-  def destroy
-    @product.destroy!
-
-    respond_to do |format|
-      format.html { redirect_to products_url, notice: "Product was successfully destroyed." }
-      format.json { head :no_content }
-    end
-  end
-
-  private
-    # Use callbacks to share common setup or constraints between actions.
+     
     def set_product
       @product = Product.find(params[:id])
     end
-
+  
     def product_params
-      params.require(:product).permit(
-        :name,
-        :description,
-        :image,
-        # :category_id,
-        # prices_attributes: [:id, :color_id, :size_id, :price, :quantity, :_destroy]
-      )
+      params.require(:product).permit(:name, :description, :category_id, :subcategory_id, :size_id, :color_id, :image)
     end
-    
 end

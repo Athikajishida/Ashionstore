@@ -3,7 +3,15 @@
 one:
   name: MyString
   description: MyText
+  category: one
+  subcategory: one
+  size: one
+  color: one
 
 two:
   name: MyString
   description: MyText
+  category: two
+  subcategory: two
+  size: two
+  color: two

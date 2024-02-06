@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_01_31_172653) do
+ActiveRecord::Schema[7.1].define(version: 2024_02_06_074401) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -71,20 +71,31 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_31_172653) do
   create_table "products", force: :cascade do |t|
     t.string "name"
     t.text "description"
+    t.bigint "category_id", null: false
+    t.bigint "subcategory_id", null: false
+    t.bigint "size_id", null: false
+    t.bigint "color_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "category_id", null: false
-    t.bigint "color_id", null: false
-    t.bigint "size_id", null: false
+    t.string "image"
     t.index ["category_id"], name: "index_products_on_category_id"
     t.index ["color_id"], name: "index_products_on_color_id"
     t.index ["size_id"], name: "index_products_on_size_id"
+    t.index ["subcategory_id"], name: "index_products_on_subcategory_id"
   end
 
   create_table "sizes", force: :cascade do |t|
     t.string "size"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "subcategories", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "category_id", null: false
+    t.string "name"
+    t.index ["category_id"], name: "index_subcategories_on_category_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -113,4 +124,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_31_172653) do
   add_foreign_key "products", "categories"
   add_foreign_key "products", "colors"
   add_foreign_key "products", "sizes"
+  add_foreign_key "products", "subcategories"
+  add_foreign_key "subcategories", "categories"
 end

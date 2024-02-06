@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
-  resources :products
+  resources :subcategories
+
   resources :categories 
 
 
@@ -22,6 +23,10 @@ end
     collection do
       get 'manage_users'
     end
+  end
+
+  resources :products do
+    get 'load_subcategories', on: :collection
   end
 
   root 'welcome#index'

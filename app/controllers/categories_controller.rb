@@ -2,13 +2,12 @@ class CategoriesController < ApplicationController
   before_action :set_category, only: %i[ show edit update destroy ]
   layout "admin_layouts"
 
-  # GET /categories or /categories.json
   def index
     @categories = Category.all
   end
 
-  # GET /categories/1 or /categories/1.json
   def show
+    
   end
 
   # GET /categories/new
@@ -37,6 +36,7 @@ class CategoriesController < ApplicationController
 
   # PATCH/PUT /categories/1 or /categories/1.json
   def update
+      layout "admin_layouts"
     respond_to do |format|
       if @category.update(category_params)
         format.html { redirect_to category_url(@category), notice: "Category was successfully updated." }
