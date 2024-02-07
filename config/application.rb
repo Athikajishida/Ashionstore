@@ -8,6 +8,7 @@ Bundler.require(*Rails.groups)
 
 module MyFirstProject
   class Application < Rails::Application
+
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 7.1
 
@@ -15,7 +16,11 @@ module MyFirstProject
     # not contain `.rb` files, or that should not be reloaded or eager loaded.
     # Common ones are `templates`, `generators`, or `middleware`, for example.
     config.autoload_lib(ignore: %w(assets tasks))
-
+     config.to_prepare do
+    Devise::SessionsController.layout "user_layouts"
+    Devise::RegistrationsController.layout "user_layouts"
+    # Add more Devise controllers and layouts as needed
+  end
     # Configuration for the application, engines, and railties goes here.
     #
     # These settings can be overridden in specific environments using the files

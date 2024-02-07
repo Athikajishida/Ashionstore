@@ -1,23 +1,4 @@
-<%
-=begin%>
- 
- <p class="navbar-text float-right">
-  <% if user_signed_in? %>
-    Logged in as <strong><%= current_user.email %></strong>.
-    <%= link_to "Edit profile", edit_user_registration_path, class: "navbar-link" %> |
-    <%= button_to "Logout", destroy_user_session_path, method: :delete, class: "navbar-link", form_class: "navbar-form", remote: true %>
 
-    <% if current_user.admin? %>
-      | <%= link_to "Admin Panel",  admin_index_path, class: "navbar-link" %>
-    <% end %>
-
-  <% else %>
-    <%= link_to "Sign up", new_user_registration_path, class: "navbar-link"  %> |
-    <%= link_to "Login", new_user_session_path, class: "navbar-link"  %>
-  <% end %>
-</p>  
-<%
-=end%>
 <!DOCTYPE html>
 <html lang="zxx">
 
@@ -27,7 +8,7 @@
     <meta name="keywords" content="Ashion, unica, creative, html">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Ashion | Template</title>
+    <title>Ashion</title>
 
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Cookie&display=swap" rel="stylesheet">
@@ -69,8 +50,17 @@
         </div>
         <div id="mobile-menu-wrap"></div>
         <div class="offcanvas__auth">
-            <a href="#">Login</a>
-            <a href="#">Register</a>
+             <% if user_signed_in? %>
+    <a href="<%= edit_user_registration_path %>">Edit profile</a>
+    <form action="<%= destroy_user_session_path %>" method="post" id="logout-form">
+      <input type="hidden" name="_method" value="delete">
+      <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+      <a href="#" onclick="document.getElementById('logout-form').submit();">Logout</a>
+    </form>
+  <% else %>
+    <a href="<%= new_user_session_path %>">Login</a> |
+    <a href="<%= new_user_registration_path %>">Register</a>
+  <% end %>
         </div>
     </div>
     <!-- Offcanvas Menu End -->
@@ -107,12 +97,19 @@
                 <div class="col-lg-3">
                     <div class="header__right">
                         <div class="header__right__auth">
+  <% if user_signed_in? %>
+    <a href="<%= edit_user_registration_path %>">Edit profile</a>
+    <form action="<%= destroy_user_session_path %>" method="post" id="logout-form">
+      <input type="hidden" name="_method" value="delete">
+      <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+      <a href="#" onclick="document.getElementById('logout-form').submit();">Logout</a>
+    </form>
+  <% else %>
+    <a href="<%= new_user_session_path %>">Login</a> |
+    <a href="<%= new_user_registration_path %>">Register</a>
+  <% end %>
+</div>
 
-
-                        
-                            <a href="#">Login</a>
-                            <a href="#">Register</a>
-                        </div>
                         <ul class="header__right__widget">
                             <li><span class="icon_search search-switch"></span></li>
                             <li><a href="#"><span class="icon_heart_alt"></span>

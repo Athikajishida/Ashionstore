@@ -76,12 +76,13 @@
 
     function updateSubcategories(categoryId) {
       cat_id = $("#product_category_id").val();
-      const url = `/load_subcategories?id=${cat_id}`;
+      const url = `/load_subcategories/${cat_id}`;	
+
 
       fetch(url)
         .then((response) => response.json())
         .then((data) => {
-          updateDropdown(subcategoryDropdown, data.subcategories);
+          updateDropdown(subcategoryDropdown, data);
         })
         .catch((error) => {
           console.error("Error fetching subcategories:", error);
@@ -90,7 +91,10 @@
 
     function updateDropdown(dropdown, options) {
       dropdown.innerHTML = "";
+      // console.log(dropdown,"dropdown")
+      // console.log(options)
       options.forEach((option) => {
+        console.log(option)
         const optionElement = document.createElement("option");
         optionElement.value = option.id;
         optionElement.text = option.name;

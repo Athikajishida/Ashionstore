@@ -26,8 +26,9 @@ end
   end
 
   resources :products do
-    get 'load_subcategories', on: :collection
   end
+
+  get 'load_subcategories/:id', to: 'products#load_subcategories'
 
   root 'welcome#index'
 end
