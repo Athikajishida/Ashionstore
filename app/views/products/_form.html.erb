@@ -1,54 +1,46 @@
 <div class="content_body" id="content_body">
   <div class="wrapper_content_body">
-  <h2>Product</h2>
+    <h2>Product</h2>
     <div class="content_box_border">
-      <%= form_with(model: @product, local: true) do |form| %>
-      <div class="row mt-2">
-        <div class="col-md-6">
-          <div class="form_group">
-            <%= form.label :name %> <%= form.text_field :name %>
+      <%= form_with(model: @product, local: true, html: { enctype: "multipart/form-data" }) do |form| %>
+        <div class="row mt-2">
+          <div class="col-md-6">
+            <div class="form_group">
+              <%= form.label :name %> <%= form.text_field :name %>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form_group">
+              <%= form.label :description %> <%= form.text_area :description %>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form_group">
+              <%= form.label :category_id %> <%= form.collection_select :category_id, @categories, :id, :category_name, prompt: 'Select a category' %>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form_group">
+              <%= form.label :subcategory_id %> <%= form.collection_select :subcategory_id, @subcategories, :id, :name, prompt: 'Select a subcategory' %>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form_group">
+              <%= form.label :image %> <%= form.file_field :image %>
+            </div>
+          </div>
+          <div class="col-12">
+            <div id="variants-container">
+              <!-- Variant rows will be dynamically added here -->
+            </div>
+            <%= button_tag(type: "button", id: "add-variant", class: "btn btn-primary", onclick: "addVariantRow()") do %>
+              Add Variant
+            <% end %>
+          </div>
+          <div class="col-12 text-center">
+            <%= form.submit class: "form_btn btn_green" %> <%= link_to products_path, class: "form_btn btn_warning text-decoration-none" do %> Back <% end %>
           </div>
         </div>
-        <div class="col-md-6">
-          <div class="form_group">
-            <%= form.label :description %> <%= form.text_area :description %>
-          </div>
-        </div>
-
-        <div class="col-md-6">
-          <div class="form_group">
-            <%= form.label :category_id %> <%= form.collection_select :category_id, @categories, :id, :category_name, prompt: 'Select a category' %>
-          </div>
-        </div>
-
-        <div class="col-md-6">
-          <div class="form_group">
-            <%= form.label :subcategory_id %> <%= form.collection_select :subcategory_id, @subcategories, :id, :name, prompt: 'Select a subcategory' %>
-          </div>
-        </div>
-
-        <div class="col-md-6">
-          <div class="form_group">
-            <%= form.label :size_id %> <%= form.collection_select :size_id, @sizes, :id, :size, prompt: 'Select a size' %>
-          </div>
-        </div>
-
-        <div class="col-md-6">
-          <div class="form_group">
-            <%= form.label :color_id %> <%= form.collection_select :color_id, @colors, :id, :name, prompt: 'Select a color' %>
-          </div>
-        </div>
-
-        <div class="col-md-6">
-          <div class="form_group">
-            <%= form.label :image %> <%= form.file_field :image %>
-          </div>
-        </div>
-
-        <div class="col-12 text-center">
-          <%= form.submit class:"form_btn btn_green" %> <%= link_to products_path, class: "form_btn btn_warning text-decoration-none" do %> Back <% end %>
-        </div>
-      </div>
       <% end %>
     </div>
   </div>
@@ -65,20 +57,10 @@
       updateSubcategories(selectedCategoryId);
     });
 
-    // function updateSubcategories(categoryId) {
-    //   const url = `/products/load_subcategories?category_id=${categoryId}`;
-    //   fetch(url)
-    //     .then(response => response.json())
-    //     .then(data => {
-    //       updateDropdown(subcategoryDropdown, data.subcategories);
-    //     });
-    // }
-
     function updateSubcategories(categoryId) {
       cat_id = $("#product_category_id").val();
-      const url = `/load_subcategories/${cat_id}`;	
-
-
+      const url = `/load_subcategories/${cat_id}`;
+  
       fetch(url)
         .then((response) => response.json())
         .then((data) => {
@@ -91,10 +73,7 @@
 
     function updateDropdown(dropdown, options) {
       dropdown.innerHTML = "";
-      // console.log(dropdown,"dropdown")
-      // console.log(options)
       options.forEach((option) => {
-        console.log(option)
         const optionElement = document.createElement("option");
         optionElement.value = option.id;
         optionElement.text = option.name;
@@ -105,4 +84,57 @@
     const initialCategoryId = categoryDropdown.value;
     updateSubcategories(initialCategoryId);
   });
+</script>
+
+<script>
+  function addVariantRow() {
+    const container = document.getElementById("variants-container");
+    const newRow = document.createElement("div");
+    newRow.classList.add("variant-row");
+
+    newRow.innerHTML = `
+      <div class="col-md-6">
+        <div class="form_group">
+          <label for="product_variants_attributes[][color_id]">Color</label>
+          <select name="product[variants_attributes][][color_id]">
+            ${generateOptions(@colors)}
+          </select>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="form_group">
+          <label for="product_variants_attributes[][size_id]">Size</label>
+          <select name="product[variants_attributes][][size_id]">
+            ${generateOptions(@sizes)}
+          </select>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="form_group">
+          <label for="product_variants_attributes[][price]">Price</label>
+          <input type="text" name="product[variants_attributes][][price]">
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="form_group">
+          <label for="product_variants_attributes[][quantity]">Quantity</label>
+          <input type="text" name="product[variants_attributes][][quantity]">
+        </div>
+      </div>
+
+      <div class="col-12">
+        <button type="button" class="btn btn-danger" onclick="removeVariantRow(this)">Remove</button>
+      </div>
+    `;
+
+    container.appendChild(newRow);
+  }
+
+  function removeVariantRow(button) {
+    const row = button.closest(".variant-row");
+    row.remove();
+  }
 </script>

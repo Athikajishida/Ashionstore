@@ -13,11 +13,21 @@ Rails.application.configure do
 
   # Show full error reports.
   config.consider_all_requests_local = true
+  config.active_storage.service = :disk
 
   # Enable server timing
   config.server_timing = true
-  config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
 
+  config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+    address: 'smtp.gmail.com',
+    port: 587,
+    user_name: 'athikajishida@gmail.com',
+    password: '8129272229',
+    authentication: 'plain',
+    enable_starttls_auto: true
+  }
   # Enable/disable caching. By default caching is disabled.
   # Run rails dev:cache to toggle caching.
   if Rails.root.join("tmp/caching-dev.txt").exist?
@@ -33,6 +43,7 @@ Rails.application.configure do
 
     config.cache_store = :null_store
   end
+  config.action_mailer.delivery_method = :letter_opener
 
   # Store uploaded files on the local file system (see config/storage.yml for options).
   config.active_storage.service = :local

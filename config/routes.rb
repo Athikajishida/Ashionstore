@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   resources :subcategories
 
   resources :categories 
+  resources :addresses
 
 
   # devise_for :users, controllers: {
@@ -31,4 +32,6 @@ end
   get 'load_subcategories/:id', to: 'products#load_subcategories'
 
   root 'welcome#index'
+  get 'user_list', to: 'admin#user_list'
+
 end

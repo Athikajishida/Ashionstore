@@ -3,6 +3,8 @@ class User < ApplicationRecord
   def blocked?
     blocked
   end
+  has_many :addresses
+
   # validates :name, presence: true
   # validates :phone, presence: true, length: { minimum: 10, maximum: 15 }
   # Include default devise modules. Others available are:

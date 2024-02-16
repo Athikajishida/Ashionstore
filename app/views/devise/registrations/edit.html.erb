@@ -1,64 +1,99 @@
 <section class="checkout spad">
-        <div class="container">
-            <form action="#" class="checkout__form">
-<div class="row">
-                <div class="col-lg-12">
-                <h2>Edit <%= resource_name.to_s.humanize %></h2>
-</div>
-</div>
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
-  <%= render "devise/shared/error_messages", resource: resource %>
+  <div class="container">
+    <form action="#" class="checkout__form">
+      <div class="row">
+        <div class="col-lg-8">
+          <h2 class="coupon__link">Edit <%= resource_name.to_s.humanize %></h2>
 
-
-<div class="field">
-      <%= f.label :name %><br />
-      <%= f.text_field :name, autofocus: true %>
+          <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
+            <%= render "devise/shared/error_messages", resource: resource %>
+            <div class="field col-lg-12">
+              <div class="checkout__form__input">
+                <%= f.label :name %><br />
+                <%= f.text_field :name, autofocus: true %>
+              </div>
+            </div>
+            <div class="field col-lg-12">
+              <div class="checkout__form__input">
+                <%= f.label :email %><br />
+                <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+              </div>
+            </div>
+            <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+              <div class="field col-lg-12">Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
+            <% end %>
+            <div class="field col-lg-12">
+              <div class="checkout__form__input">
+                <%= f.label :phone %><br />
+                <%= f.text_field :phone %>
+              </div>
+            </div>
+            <div class="field col-lg-12">
+              <div class="checkout__form__input">
+                <%= f.label :password %> <i>(leave blank if you don't want to change it)</i><br />
+                <%= f.password_field :password, autocomplete: "new-password" %>
+                <% if @minimum_password_length %>
+                  <br />
+                  <em><%= @minimum_password_length %> characters minimum</em>
+                <% end %>
+              </div>
+            </div>
+            <div class="field col-lg-12">
+              <div class="checkout__form__input">
+                <%= f.label :password_confirmation %><br />
+                <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
+              </div>
+            </div>
+            <div class="field col-lg-12">
+              <div class="checkout__form__input">
+                <%= f.label :current_password %> <i>(we need your current password to confirm your changes)</i><br />
+                <%= f.password_field :current_password, autocomplete: "current-password" %>
+              </div>
+            </div>
+            <div class="field col-lg-12">
+              <div class="actions">
+                <%= f.submit "Update", :class => "site-btn" %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+        <div class="col-lg-4">
+          <div class="checkout__order">
+            <h5>Your order</h5>
+            <div class="checkout__order__product">
+              <ul>
+                <li>
+                  <span class="top__text">ACCOUNT SETTINGS</span>
+                </li>
+                <li>Profile Information</li>
+     <li><%= link_to 'Manage Addresses', addresses_path, style: 'text-decoration: none; color: inherit;' %></li>
+                <li>PAN Card Information</li>
+              </ul>
+            </div>
+            <div class="checkout__order__total">
+              <ul>
+                <li><h5>MY STUFF </h5></li>
+                <li>My Coupons</li>
+                <li>My Reviews & Ratings</li>
+                <li>All Notifications</li>
+              </ul>
+            </div>
+            <div class="checkout__order__widget">
+              <h5>My Wishlist</h5>
+            </div>
+                <%= button_to "Logout", destroy_user_session_path, method: :delete, class: "site-btn", remote: true %>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="col-lg-6 col-md-6 col-sm-6">
+    <div class="checkout__order">
+      <h5>Cancel my account</h5>
+      <div class="checkout__order__product">
+        Unhappy? 
+      </div>
+      <%= button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?", turbo_confirm: "Are you sure?" }, method: :delete, :class => "site-btn" %>
     </div>
-
-
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
   </div>
-
-  <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
-    <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
-  <% end %>
-
-  <div class="field">
-      <%= f.label :phone %><br />
-      <%= f.text_field :phone %>
-    </div>
-
-
-  <div class="field">
-    <%= f.label :password %> <i>(leave blank if you don't want to change it)</i><br />
-    <%= f.password_field :password, autocomplete: "new-password" %>
-    <% if @minimum_password_length %>
-      <br />
-      <em><%= @minimum_password_length %> characters minimum</em>
-    <% end %>
-  </div>
-
-  <div class="field">
-    <%= f.label :password_confirmation %><br />
-    <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
-  </div>
-
-  <div class="field">
-    <%= f.label :current_password %> <i>(we need your current password to confirm your changes)</i><br />
-    <%= f.password_field :current_password, autocomplete: "current-password" %>
-  </div>
-
-  <div class="actions">
-    <%= f.submit "Update" %>
-  </div>
-<% end %>
-</form>
-<h3>Cancel my account</h3>
-
-<div>Unhappy? <%= button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?", turbo_confirm: "Are you sure?" }, method: :delete %></div>
-
-<%= link_to "Back", :back %>
-</div>
 </section>

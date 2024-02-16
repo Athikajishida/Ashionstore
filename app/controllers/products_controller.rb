@@ -4,12 +4,13 @@ class ProductsController < ApplicationController
     layout "admin_layouts"
 
     def index
+      ActiveStorage::Current.url_options = { host: request.base_url }
       @products = Product.all
     end
-  
+ 
     def show
     end
- 
+
     def new
       @product = Product.new
       respond_to do |format|
@@ -18,22 +19,12 @@ class ProductsController < ApplicationController
       end
     end
  
-    # def create
-    #     # binding.pry
-    #   @product = Product.new(product_params)
-  
-    #   if @product.save
-    #     redirect_to @product, notice: 'Product was successfully created.'
-    #   else
-    #     render :new
-    #   end
-    # end
-
     def create
       # Remove the empty string or set it to nil
       params[:product][:subcategory_id] = nil if params[:product][:subcategory_id].blank?
-    
+      create_price_combinations(@product, params[:product])
       @product = Product.new(product_params)
+
     
       if @product.save
         redirect_to @product, notice: 'Product was successfully created.'
@@ -69,7 +60,7 @@ class ProductsController < ApplicationController
       @colors = Color.all
       @subcategories = Subcategory.where(category_id: params[:id])
       render json: @subcategories
-      
+
     end
     private
     def load_subcategories2
@@ -81,7 +72,7 @@ class ProductsController < ApplicationController
       respond_to do |format|
         format.html
         format.json { render json: { subcategories: @subcategories } }
-      end
+      end   
     end 
     def set_product
       @product = Product.find(params[:id])
@@ -90,4 +81,18 @@ class ProductsController < ApplicationController
     def product_params
       params.require(:product).permit(:name, :description, :category_id, :subcategory_id, :size_id, :color_id, :image)
     end
+    def create_price_combinations(product, variant_params)
+
+      self.prices.create(variant_params['variants_attributes'])
+ 
+      variants.each do |variant|
+        color_id = variant['color_id']
+        size_id = variant['size_id']
+        price = variant['price']
+        quantity = variant['quantity']
+    
+        Price.create(product: product, color_id: color_id, size_id: size_id, price: price, quantity: quantity)
+      end
+    end
+    
 end

@@ -33,7 +33,7 @@
         <td><%= product.subcategory.name if product.subcategory %></td>
         <td><%= product.size.size if product.size %></td>
         <td><%= product.color.name if product.color %></td>
-        <td><%= image_tag product.image.url if product.image.attached? %></td>
+        <td><%= image_tag product.image.url,style: 'width:50px;height:50px;'  if product.image.attached? %></td>
         <td>
           <%= link_to 'Show', product %>
         </td>

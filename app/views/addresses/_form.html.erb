@@ -1,0 +1,35 @@
+<%= form_with model: @address, local: true do |form| %>
+  <div>
+    <%= form.label :house %>
+    <%= form.text_field :house %>
+  </div>
+
+  <div>
+    <%= form.label :area %>
+    <%= form.text_field :area %>
+  </div>
+
+  <div>
+    <%= form.label :place %>
+    <%= form.text_field :place %>
+  </div>
+
+  <div>
+    <%= form.label :pincode %>
+    <%= form.text_field :pincode %>
+  </div>
+
+  <div>
+    <%= form.label :address_type %>
+    <%= form.select :address_type, options_for_select(['Home', 'Office', 'Other']) %>
+  </div>
+
+  <div>
+    <%= form.label :city_id %>
+  <%= form.collection_select :city_id, City.all, :id, :cityname %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>

@@ -19,10 +19,22 @@ module MyFirstProject
      config.to_prepare do
     Devise::SessionsController.layout "user_layouts"
     Devise::RegistrationsController.layout "user_layouts"
-    # Add more Devise controllers and layouts as needed
+    Devise::ConfirmationsController.layout "user_layouts"
+    Devise::UnlocksController.layout "user_layouts"            
+    Devise::PasswordsController.layout "user_layouts"
+    
   end
-    # Configuration for the application, engines, and railties goes here.
-    #
+  config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+    address: 'smtp.gmail.com',
+    port: 587,
+    user_name: 'athikajishida@gmail.com',
+    password: '8129272229',
+    authentication: 'plain',
+    enable_starttls_auto: true
+  }
+      
     # These settings can be overridden in specific environments using the files
     # in config/environments, which are processed later.
     #

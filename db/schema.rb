@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_02_06_074401) do
+ActiveRecord::Schema[7.1].define(version: 2024_02_16_073211) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -42,9 +42,29 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_06_074401) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
+  create_table "addresses", force: :cascade do |t|
+    t.string "house"
+    t.string "area"
+    t.string "place"
+    t.string "pincode"
+    t.string "address_type", null: false
+    t.bigint "user_id", null: false
+    t.bigint "city_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["city_id"], name: "index_addresses_on_city_id"
+    t.index ["user_id"], name: "index_addresses_on_user_id"
+  end
+
   create_table "categories", force: :cascade do |t|
     t.string "category_name"
     t.text "category_description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "cities", force: :cascade do |t|
+    t.string "cityname"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -118,6 +138,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_06_074401) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "addresses", "cities"
+  add_foreign_key "addresses", "users"
   add_foreign_key "prices", "colors"
   add_foreign_key "prices", "products"
   add_foreign_key "prices", "sizes"
