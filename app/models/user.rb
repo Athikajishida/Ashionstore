@@ -4,6 +4,8 @@ class User < ApplicationRecord
     blocked
   end
   has_many :addresses
+  has_one :cart
+  has_many :wishlists
 
   # validates :name, presence: true
   # validates :phone, presence: true, length: { minimum: 10, maximum: 15 }

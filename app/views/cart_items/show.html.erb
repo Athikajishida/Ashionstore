@@ -1,0 +1,128 @@
+<section class="shop-cart spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="shop__cart__table">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Product</th>
+                                    <th>Price</th>
+                                    <th>Quantity</th>
+                                    <th>Total</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                             <% @cart_item.cart_items.each do |cart_item| %>
+                                <tr>
+                                  <td class="cart__product__item">
+                                    <%= image_tag(cart_item.product.image.url, alt: cart_item.product.name, class: "cart-image", style: 'width:75px;height:75px;' ) %>
+                                    <div class="cart__product__item__title">
+                                      <h6><%= cart_item.product.name %></h6>
+                                      <div class="rating">
+                                        <!-- Your rating logic here -->
+                                      </div>
+                                    </div>
+                                  </td>
+                                  <td class="cart__price">$ <%= cart_item.product.price %></td>
+                                  <td class="cart__quantity">
+                                    <div class="pro-qty">
+                                      <input type="text" value="<%= cart_item.quantity %>">
+                                    </div>
+                                    </td>
+                                    <td class="cart__total">$ <%= cart_item.product.price.to_f * cart_item.quantity.to_i %></td>
+                                    <td class="cart__close">
+                                    <span class="icon_close" data-cart-item-id="<%= cart_item.id %>"></span>
+                                    </td>                                </tr>
+                                <% end %>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6 col-md-6 col-sm-6">
+                    <div class="cart__btn">
+                        <a href="#">Continue Shopping</a>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6">
+                    <div class="cart__btn update__btn">
+                        <a href="#"><span class="icon_loading"></span> Update cart</a>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="discount__content">
+                        <h6>Discount codes</h6>
+                        <form id="coupon-form">
+                            <input type="text"  id="coupon-code" placeholder="Enter your coupon code">
+                            <button type="submit" id="apply-coupon" class="site-btn">Apply</button>
+                        </form>
+                    </div>
+                </div>
+                <div class="col-lg-4 offset-lg-2">
+                    <div class="cart__total__procced">
+                        <h6>Cart total</h6>
+                        <ul>
+                            <li>Subtotal <span id="cart-total">$<%= calculate_cart_total(current_user.cart) %></span></li>
+                            <li>Total <span id="cart-total">$ </span></li>
+                        </ul>
+                        <a href="#" class="primary-btn">Proceed to checkout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+<script>
+  $(document).ready(function() {
+    var csrfToken = $('meta[name=csrf-token]').attr('content');
+    $.ajaxSetup({
+      headers: {
+        'X-CSRF-Token': csrfToken
+      }
+    });
+
+    $('.icon_close').on('click', function() {
+      var cartItemId = $(this).data('cart-item-id');
+
+      $.ajax({
+        type: 'DELETE',
+        url: '/cart_items/' + cartItemId,
+        success: function(response) {
+          updateCartTotal(response.cart_total);
+        },
+        error: function(error) {
+          // Handle error if needed
+        }
+      });
+    });
+
+$('#apply-coupon').on('click', function() {
+      var couponCode = $('#coupon-code').val();
+
+      $.ajax({
+        type: 'POST',
+        url: '/apply_coupon',
+        data: { coupon_code: couponCode },
+        dataType: 'json',
+        success: function(response) {
+          if (response.success) {
+            updateCartTotal(response.total);
+          } else {
+            alert('Invalid coupon code. Please try again.');
+          }
+        },
+        error: function(xhr, status, error) {
+          console.error('Ajax Error: ' + error);
+        }
+      });
+    });
+
+    function updateCartTotal(total) {
+      $('#cart-total').text(total);
+    }
+  });
+</script>

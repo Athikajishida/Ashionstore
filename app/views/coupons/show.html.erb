@@ -1,0 +1,35 @@
+<div class="content_body" id="content_body">
+    <div class="wrapper_content_body">
+                <div class="content_box_border">
+
+<h1>Coupon</h1>
+
+<p>
+  <strong>Code:</strong>
+  <%= @coupon.code %>
+</p>
+
+<p>
+  <strong>Discount Percentage:</strong>
+  <%= @coupon.discount_percentage %>
+</p>
+
+<p>
+  <strong>Min Purchase Amount:</strong>
+  <%= @coupon.min_purchase_amount %>
+</p>
+
+<p>
+  <strong>Max Discount Amount:</strong>
+  <%= @coupon.max_discount_amount %>
+</p>
+
+<p>
+  <strong>Expiry Date:</strong>
+  <%= @coupon.expiry_date %>
+</p>
+</div>
+<%= link_to 'Edit', edit_coupon_path(@coupon) %> |
+<%= link_to 'Back', coupons_path %>
+</div>
+</div>

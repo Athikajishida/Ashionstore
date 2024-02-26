@@ -1,0 +1,180 @@
+    <!-- Shop Section Begin -->
+    <section class="shop spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-3">
+                    <div class="shop__sidebar">
+                        <div class="sidebar__categories">
+                            <div class="section-title">
+                                <h4>Categories</h4>
+                            </div>
+                            <div class="categories__accordion">
+                                <div class="accordion" id="accordionExample">
+                                    <% @subcategories.each do |subcategory| %>
+                                      <div class="card">
+                                        <div class="card-heading active">
+                                          <a data-toggle="collapse" data-target="#collapse<%= subcategory.id %>"><%= subcategory.name %></a>
+                                        </div>
+                                        <div id="collapse<%= subcategory.id %>" class="collapse show" data-parent="#accordionExample">
+                                          <div class="card-body">
+                                            <ul>
+                                              <% @categories.each do |category| %>
+                                                <li><a href="#"><%= category.category_name %></a></li>
+                                              <% end %>
+                                            </ul>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    <% end %>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="sidebar__filter">
+                            <div class="section-title">
+                                <h4>Shop by price</h4>
+                            </div>
+                            <div class="filter-range-wrap">
+                                <div class="price-range ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"
+                                data-min="33" data-max="99"></div>
+                                <div class="range-slider">
+                                    <div class="price-input">
+                                        <p>Price:</p>
+                                        <input type="text" id="minamount">
+                                        <input type="text" id="maxamount">
+                                    </div>
+                                </div>
+                            </div>
+                            <a href="#">Filter</a>
+                        </div>
+                       <div class="sidebar__sizes">
+                          <div class="section-title">
+                            <h4>Shop by size</h4>
+                          </div>
+                          <div class="size__list">
+                            <% @sizes.each do |size| %>
+                              <label for="<%= size.size.downcase %>">
+                                <%= size.size.downcase %>
+                                <input type="checkbox" id="<%= size.size.downcase %>">
+                                <span class="checkmark"></span>
+                              </label>
+                            <% end %>
+                          </div>
+                        </div>
+                    <div class="sidebar__color">
+                      <div class="section-title">
+                        <h4>Shop by color</h4>
+                      </div>
+                      <div class="size__list color__list">
+                        <% @colors.each do |color| %>
+                          <label for="<%= color.name.downcase %>">
+                            <%= color.name %>
+                            <input type="checkbox" id="<%= color.name.downcase %>">
+                            <span class="checkmark"></span>
+                          </label>
+                        <% end %>
+                      </div>
+                    </div>
+
+                    </div>
+                </div>
+
+                <div class="col-lg-9 col-md-9">
+                    <div class="row">
+                    <% @products.each do |product| %>
+                        <div class="col-lg-4 col-md-6">
+                          <div class="product__item">
+                            <% if product.image.attached? %>
+                              <div class="product__item__pic set-bg" data-setbg=" <%= url_for(product.image) %>">
+                                <div class="label new">New</div>
+                                <ul class="product__hover">
+                                  <li><a href="<%= url_for(product.image) %>" class="image-popup"><span class="arrow_expand"></span></a></li>
+                                  <li><a href="#" class="icon_heart_alt" data-product-id="<%= product.id %>"></a></li>
+                                  <li><a href="#" class="add-to-cart" data-product-id="<%= product.id %>"><span class="icon_bag_alt"></span></a></li>
+                                </ul>
+                              </div>
+                            <% else %>
+                              <div class="product__item__pic set-bg" data-setbg="img/product/product-3.jpg">
+                              </div>
+                            <% end %>
+                            <div class="product__item__text">
+                              <h6><a href="#"><%= product.name %></a></h6>
+                              <div class="rating">
+
+                              </div>
+                              <div class="product__price"><%= number_to_currency(product.price) %></div>
+                            </div>
+                          </div>
+                        </div>
+                      <% end %>
+
+                        <div class="col-lg-12 text-center">
+                            <div class="pagination__option">
+                                <a href="#">1</a>
+                                <a href="#">2</a>
+                                <a href="#">3</a>
+                                <a href="#"><i class="fa fa-angle-right"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Shop Section End -->
+<!-- Add this script to your view or a separate JavaScript file -->
+<script>
+$(document).ready(function() {
+  var csrfToken = $('meta[name=csrf-token]').attr('content');
+  $.ajaxSetup({
+    headers: {
+      'X-CSRF-Token': csrfToken
+    }
+  });
+
+  $(document).on('click', '.add-to-cart', function(e) {
+    e.preventDefault();
+    var productId = $(this).data('product-id');
+
+    $.ajax({
+      type: 'POST',
+      url: '/add_to_cart',
+      data: { product_id: productId },
+      dataType: 'json',
+      success: function(response) {
+        if (response.success) {
+          alert(response.message);
+        } else {
+          alert('Failed to add product to cart');
+        }
+      },
+      error: function() {
+        alert('An error occurred');
+      }
+    });
+  });
+  $(document).on('click', '.icon_heart_alt', function(e) {
+  e.preventDefault();
+  var product_id = $(this).data('product-id');
+
+  $.ajax({
+    type: 'POST',
+    url: '/wishlists',
+    data: { product_id: product_id },
+    dataType: 'json',
+    success: function(response) {
+      if (response.success) {
+        $('.wishlist-count').text(response.count);
+      } else {
+        alert('Error: ' + response.errors.join(', '));
+      }
+    },
+    error: function(xhr, status, error) {
+      console.error('AJAX Error: ' + error);
+    }
+  });
+});
+    function updateCartCount(count) {
+    $('#cart-count').text(count);
+  }
+});
+</script>

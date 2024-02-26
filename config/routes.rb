@@ -3,6 +3,8 @@ Rails.application.routes.draw do
 
   resources :categories 
   resources :addresses
+  resources :wishlists, only: [:index, :create, :destroy]
+  resources :coupons
 
 
   # devise_for :users, controllers: {
@@ -25,11 +27,21 @@ end
       get 'manage_users'
     end
   end
+  resources :cart_items, only: [:create, :update, :show] do
+    get 'new_show', on: :collection
+
+  end
+  post '/add_to_cart', to: 'product_list#add_to_cart', as: 'add_to_cart'
+  post '/apply_coupon', to: 'cart#apply_coupon'
 
   resources :products do
   end
+  get '/product_list', to: 'product_list#index'
+  get '/product_list/mens', to: 'product_list#mens'
+  get '/product_list/womens', to: 'product_list#womens'
 
   get 'load_subcategories/:id', to: 'products#load_subcategories'
+  resources :cart_items, only: [:destroy]
 
   root 'welcome#index'
   get 'user_list', to: 'admin#user_list'

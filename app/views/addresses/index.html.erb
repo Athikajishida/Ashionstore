@@ -1,13 +1,58 @@
-<h1>Your Addresses</h1>
-
-<%= link_to 'New Address', new_address_path %>
-
-<ul>
-  <% @addresses.each do |address| %>
-    <li>
-      <%= "#{address.house}, #{address.area}, #{address.place}, #{address.pincode}, Type: #{address.address_type}, City: #{address.city.cityname}" %>
-      <%= link_to 'Edit', edit_address_path(address) %>
-      <%= link_to 'Destroy', address, method: :delete, data: { confirm: 'Are you sure?' } %>
-    </li>
-  <% end %>
-</ul>
+<section class="checkout spad">
+  <div class="container">
+    <form action="#" class="checkout__form">
+      <div class="row">
+       <div class="col-lg-8">
+          <h2 class="coupon__link">Your Addresses</h2>
+           <div class="contact__form" >
+              <h5><%= link_to 'Add new Address', new_address_path, style: "color: #111111; font-weight: bold;" %></h5>
+            </div>
+          <div class="checkout__order">
+            <% @addresses.each do |address| %>
+              <div class="address-box">
+             <p style="font-weight: bold; color: #ca1515;">
+                <%= address.address_type %>
+              </p>
+                <p class="address-info">
+                  <%= "#{address.house}, #{address.area}, #{address.place}, #{address.pincode}, City: #{address.city.cityname}" %>
+                </p>
+                <div style="font-size: 13px; color: #444444;" >
+                  <%= link_to 'Edit', edit_address_path(address) , style: "color: #444444; font-weight: bold;" %>
+                  <%= link_to 'Destroy', address, method: :delete, data: { confirm: 'Are you sure?' } ,style: "color: #444444; font-weight: bold;" %>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="checkout__order">
+            <h5>Your order</h5>
+            <div class="checkout__order__product">
+              <ul>
+                <li>
+                  <span class="top__text">ACCOUNT SETTINGS</span>
+                </li>
+                <li>Profile Information</li>
+                <li><%= link_to 'Manage Addresses', addresses_path, style: 'text-decoration: none; color: inherit;' %></>
+                <li>PAN Card Information</li>
+              </ul>
+            </div>
+            <div class="checkout__order__total">
+              <ul>
+                <li><h5>MY STUFF </h5></li>
+                <li>My Coupons</li>
+                <li>My Reviews & Ratings</li>
+                <li>All Notifications</li>
+              </ul>
+            </div>
+            <div class="checkout__order__widget">
+              <h5>My Wishlist</h5>
+            </div>
+                <%= button_to "Logout", destroy_user_session_path, method: :delete, class: "site-btn", remote: true %>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+ 
+</section>

@@ -7,3 +7,5 @@
 #   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
+Coupon.create(code: 'SOCH10NEW', discount_percentage: 10, min_purchase_amount: 2499, expiry_date: '2024-02-29')
+Coupon.create(code: 'TRYMONROW15', discount_percentage: 15, expiry_date: '2024-04-06')

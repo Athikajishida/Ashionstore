@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_02_16_073211) do
+ActiveRecord::Schema[7.1].define(version: 2024_02_26_075505) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -56,6 +56,23 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_16_073211) do
     t.index ["user_id"], name: "index_addresses_on_user_id"
   end
 
+  create_table "cart_items", force: :cascade do |t|
+    t.bigint "cart_id", null: false
+    t.bigint "product_id", null: false
+    t.integer "quantity"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["cart_id"], name: "index_cart_items_on_cart_id"
+    t.index ["product_id"], name: "index_cart_items_on_product_id"
+  end
+
+  create_table "carts", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_carts_on_user_id"
+  end
+
   create_table "categories", force: :cascade do |t|
     t.string "category_name"
     t.text "category_description"
@@ -73,6 +90,31 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_16_073211) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "coupons", force: :cascade do |t|
+    t.string "code"
+    t.integer "discount_percentage"
+    t.integer "min_purchase_amount"
+    t.integer "max_discount_amount"
+    t.date "expiry_date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "orders", force: :cascade do |t|
+    t.integer "order_id"
+    t.string "status"
+    t.bigint "user_id", null: false
+    t.bigint "address_id", null: false
+    t.decimal "total_price"
+    t.string "payment_method"
+    t.bigint "cart_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["address_id"], name: "index_orders_on_address_id"
+    t.index ["cart_id"], name: "index_orders_on_cart_id"
+    t.index ["user_id"], name: "index_orders_on_user_id"
   end
 
   create_table "prices", force: :cascade do |t|
@@ -136,10 +178,25 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_16_073211) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  create_table "wishlists", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "product_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["product_id"], name: "index_wishlists_on_product_id"
+    t.index ["user_id"], name: "index_wishlists_on_user_id"
+  end
+
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "addresses", "cities"
   add_foreign_key "addresses", "users"
+  add_foreign_key "cart_items", "carts"
+  add_foreign_key "cart_items", "products"
+  add_foreign_key "carts", "users"
+  add_foreign_key "orders", "addresses"
+  add_foreign_key "orders", "carts"
+  add_foreign_key "orders", "users"
   add_foreign_key "prices", "colors"
   add_foreign_key "prices", "products"
   add_foreign_key "prices", "sizes"
@@ -148,4 +205,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_16_073211) do
   add_foreign_key "products", "sizes"
   add_foreign_key "products", "subcategories"
   add_foreign_key "subcategories", "categories"
+  add_foreign_key "wishlists", "products"
+  add_foreign_key "wishlists", "users"
 end

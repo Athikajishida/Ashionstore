@@ -29,13 +29,36 @@
               <%= form.label :image %> <%= form.file_field :image %>
             </div>
           </div>
+          <div id="clone" style="display: none;">
+                <div class="col-md-6">
+                  <div class="form_group">
+                    <%= form.label :size_id %> <%= form.collection_select :size_id, @sizes, :id, :size, prompt: 'Select a size' %>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="form_group">
+                    <%= form.label :color_id %> <%= form.collection_select :color_id, @colors, :id, :name, prompt: 'Select a color' %>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form_group">
+                      <%= form.label :price %> <%= form.text_field :price %>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form_group">
+                      <%= form.label :quantity %> <%= form.text_area :quantity %>
+                    </div>
+                  </div>
+              </div>
           <div class="col-12">
             <div id="variants-container">
-              <!-- Variant rows will be dynamically added here -->
             </div>
-            <%= button_tag(type: "button", id: "add-variant", class: "btn btn-primary", onclick: "addVariantRow()") do %>
-              Add Variant
-            <% end %>
+          </div>
+          <%= button_tag(type: "button", id: "add-variant", class: "btn btn-primary") do %>
+                Add Variant
+              <% end %>
           </div>
           <div class="col-12 text-center">
             <%= form.submit class: "form_btn btn_green" %> <%= link_to products_path, class: "form_btn btn_warning text-decoration-none" do %> Back <% end %>
@@ -84,57 +107,39 @@
     const initialCategoryId = categoryDropdown.value;
     updateSubcategories(initialCategoryId);
   });
-</script>
 
+
+
+
+ 
+</script>
 <script>
-  function addVariantRow() {
-    const container = document.getElementById("variants-container");
-    const newRow = document.createElement("div");
-    newRow.classList.add("variant-row");
+  document.addEventListener("DOMContentLoaded", function () {
+  const variantsContainer = document.getElementById("variants-container");
+  const addVariantButton = document.getElementById("add-variant");
+  const variantTemplate = document.getElementById("clone");
 
-    newRow.innerHTML = `
-      <div class="col-md-6">
-        <div class="form_group">
-          <label for="product_variants_attributes[][color_id]">Color</label>
-          <select name="product[variants_attributes][][color_id]">
-            ${generateOptions(@colors)}
-          </select>
-        </div>
-      </div>
+  addVariantButton.addEventListener("click", function () {
+    // Clone the template and append it to the container
+    const newVariant = variantTemplate.cloneNode(true);
+    newVariant.style.display = "flex"; // Make the new variant visible
 
-      <div class="col-md-6">
-        <div class="form_group">
-          <label for="product_variants_attributes[][size_id]">Size</label>
-          <select name="product[variants_attributes][][size_id]">
-            ${generateOptions(@sizes)}
-          </select>
-        </div>
-      </div>
+    // Adjust the selectors based on your HTML structure
+    const colorSelect = newVariant.querySelector(".form_group select[name*='[color_id]']");
+    const sizeSelect = newVariant.querySelector(".form_group select[name*='[size_id]']");
+    const priceInput = newVariant.querySelector(".form_group input[name*='[price]']");
+    const quantityInput = newVariant.querySelector(".form_group input[name*='[quantity]']");
 
-      <div class="col-md-6">
-        <div class="form_group">
-          <label for="product_variants_attributes[][price]">Price</label>
-          <input type="text" name="product[variants_attributes][][price]">
-        </div>
-      </div>
+    // Set default values or modify as needed
+    if (colorSelect) colorSelect.value = '1';
+    if (sizeSelect) sizeSelect.value = '2';
+    if (priceInput) priceInput.value = '10';
+    if (quantityInput) quantityInput.value = '5';
 
-      <div class="col-md-6">
-        <div class="form_group">
-          <label for="product_variants_attributes[][quantity]">Quantity</label>
-          <input type="text" name="product[variants_attributes][][quantity]">
-        </div>
-      </div>
+    variantsContainer.appendChild(newVariant);
+  });
+});
 
-      <div class="col-12">
-        <button type="button" class="btn btn-danger" onclick="removeVariantRow(this)">Remove</button>
-      </div>
-    `;
 
-    container.appendChild(newRow);
-  }
-
-  function removeVariantRow(button) {
-    const row = button.closest(".variant-row");
-    row.remove();
-  }
 </script>
+

@@ -44,19 +44,20 @@
                     <nav class="header__menu">
                         <ul>
                             <li class="active"><a href="./index.html">Home</a></li>
-                            <li><a href="#">Women’s</a></li>
-                            <li><a href="#">Men’s</a></li>
-                            <li><a href="./shop.html">Shop</a></li> 
+                                <li><a href="/product_list/womens">Women’s</a></li>
+                                <li><a href="/product_list/mens">Men’s</a></li>
+
+                            <li><a href="<%= product_list_path %>">Shop</a></li>
                             <li><a href="#">Pages</a>
                                 <ul class="dropdown">
                                     <li><a href="./product-details.html">Product Details</a></li>
-                                    <li><a href="./shop-cart.html">Shop Cart</a></li>
-                                    <li><a href="./checkout.html">Checkout</a></li>
-                                    <li><a href="./blog-details.html">Blog Details</a></li>
+                                    <li><a href="#">Shop Cart</a></li>
+                                    <li><a href="#">Checkout</a></li>
+                                    <li><a href="#">Blog Details</a></li>
                                 </ul>
                             </li>
-                            <li><a href="./blog.html">Blog</a></li>
-                            <li><a href="./contact.html">Contact</a></li>
+                            <li><a href="#">Blog</a></li>
+                            <li><a href="#">Contact</a></li>
                         </ul>
                     </nav>
                 </div>
@@ -76,13 +77,36 @@
                             <% end %>
                         </div>
                         <ul class="header__right__widget">
-                            <li><span class="icon_search search-switch"></span></li>
-                            <li><a href="#"><span class="icon_heart_alt"></span>
-                                <div class="tip">2</div>
-                            </a></li>
-                            <li><a href="#"><span class="icon_bag_alt"></span>
-                                <div class="tip">2</div>
-                            </a></li>
+                            <% if current_user %>
+                                <li>
+                                    <span class="icon_search search-switch"></span>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                    <span class="icon_heart_alt"></span>
+                                    <div class="tip wishlist-count"><%= current_user.wishlists.count %></div>
+                                    </a>
+                                </li>
+                                <% else %>
+                                <li>
+                                    <a href="#">
+                                    <span class="icon_heart_alt"></span>
+                                    <div class="tip wishlist-count">0</div>
+                                    </a>
+                                </li>
+                                <% end %>
+                                <% if current_user %>
+                                <li>
+                                    <%= link_to cart_item_path(current_user.cart), method: :get do %>
+                                    <span class="icon_bag_alt"></span>
+                                    <% if current_user.cart %>
+                                        <div class="tip" id="cart-count"><%= current_user.cart.cart_items.count %></div>
+                                    <% else %>
+                                        <div class="tip">0</div>
+                                    <% end %>
+                                    <% end %>
+                                </li>
+                                <% end %>
                         </ul>
                     </div>
                 </div>

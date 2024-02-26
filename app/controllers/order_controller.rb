@@ -1,0 +1,2 @@
+class OredrController < ApplicationController
+end

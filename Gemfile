@@ -73,3 +73,4 @@ end
 gem "devise", "~> 4.9"
 gem 'dotenv', groups: [:development, :test]
 gem 'kaminari'
+gem 'jquery-rails'

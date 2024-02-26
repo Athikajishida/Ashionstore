@@ -1,0 +1,52 @@
+
+<%= form_with(model: coupon, local: true) do |form| %>
+  <% if coupon.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(coupon.errors.count, 'error') %> prohibited this coupon from being saved:</h2>
+
+      <ul>
+        <% coupon.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+ <div class="col-md-6">
+    <div class="form_group">  
+     <%= form.label :code %>
+    <%= form.text_field :code %>
+  </div>
+</div>
+
+ <div class="col-md-6">
+    <div class="form_group">
+        <%= form.label :discount_percentage %>
+    <%= form.number_field :discount_percentage %>
+  </div>
+</div>
+
+ <div class="col-md-6">
+    <div class="form_group">
+        <%= form.label :min_purchase_amount %>
+    <%= form.number_field :min_purchase_amount %>
+  </div>
+</div>
+
+ <div class="col-md-6">
+    <div class="form_group">
+        <%= form.label :max_discount_amount %>
+    <%= form.number_field :max_discount_amount %>
+  </div>
+</div>
+
+ <div class="col-md-6">
+    <div class="form_group">
+        <%= form.label :expiry_date %>
+    <%= form.date_field :expiry_date %>
+  </div>
+</div>
+  <div class="actions col-12 text-center">
+    <%= form.submit  class:"form_btn btn_green" %>
+  </div>
+<% end %>

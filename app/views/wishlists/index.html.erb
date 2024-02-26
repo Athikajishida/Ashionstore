@@ -1,0 +1,66 @@
+<section class="shop-cart spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="shop__cart__table">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Product</th>
+                                    <th>Price</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                          <tbody>
+                            <% @wishlists.each do |wishlist| %>
+                                <tr>
+                                <td class="cart__product__item">
+                                    <%= image_tag(wishlist.product.image.url, alt: wishlist.product.name, class: "cart-image", style: 'width:75px;height:75px;' ) %>
+                                    <div class="cart__product__item__title">
+                                    <h6><%= wishlist.product.name %></h6>
+                                    <div class="rating">
+                                    </div>
+                                    </div>
+                                </td>
+                                <td class="cart__price">$ <%= wishlist.product.price %></td>
+                                <td class="cart__quantity">
+                                    <div class="pro-qty">
+                                    <input type="text" value="<%= wishlist.quantity %>" readonly>
+                                    </div>
+                                </td>
+                                <td class="cart__close">
+                                    <%= link_to 'Remove', wishlist_path(wishlist), method: :delete, class: 'icon_close', data: { confirm: 'Are you sure?' } %>
+                                </td>
+                                </tr>
+                            <% end %>
+                            </tbody>
+
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6 col-md-6 col-sm-6">
+                    <div class="cart__btn">
+                        <a href="#">Continue Shopping</a>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6">
+                    <div class="cart__btn update__btn">
+                        <a href="#"><span class="icon_loading"></span> Update wishlists</a>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="discount__content">
+                        <h6>Discount codes</h6>
+                        <form action="#">
+                            <input type="text" placeholder="Enter your coupon code">
+                            <button type="submit" class="site-btn">Apply</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>

@@ -1,5 +1,43 @@
-<h1>New Address</h1>
 
-<%= render 'form' %>
 
-<%= link_to 'Back', addresses_path %>
+<section class="checkout spad">
+  <div class="container">
+    <form action="#" class="checkout__form">
+      <div class="row">
+       <div class="col-lg-8">
+          <h2 class="coupon__link">Address Form</h2>
+            <%= render 'form' %>
+
+        </div>
+        <div class="col-lg-4">
+          <div class="checkout__order">
+            <h5>Your order</h5>
+            <div class="checkout__order__product">
+              <ul>
+                <li>
+                  <span class="top__text">ACCOUNT SETTINGS</span>
+                </li>
+                <li>Profile Information</li>
+                <li><%= link_to 'Manage Addresses', addresses_path, style: 'text-decoration: none; color: inherit;' %></>
+                <li>PAN Card Information</li>
+              </ul>
+            </div>
+            <div class="checkout__order__total">
+              <ul>
+                <li><h5>MY STUFF </h5></li>
+                <li>My Coupons</li>
+                <li>My Reviews & Ratings</li>
+                <li>All Notifications</li>
+              </ul>
+            </div>
+            <div class="checkout__order__widget">
+              <h5>My Wishlist</h5>
+            </div>
+                <%= button_to "Logout", destroy_user_session_path, method: :delete, class: "site-btn", remote: true %>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+ <%= link_to 'Back', addresses_path %>
+</section>

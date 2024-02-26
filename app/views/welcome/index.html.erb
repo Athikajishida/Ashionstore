@@ -78,9 +78,9 @@
                     <nav class="header__menu">
                         <ul>
                             <li class="active"><a href="./index.html">Home</a></li>
-                            <li><a href="#">Women’s</a></li>
-                            <li><a href="#">Men’s</a></li>
-                            <li><a href="./shop.html">Shop</a></li>
+                                <li><a href="<%= product_list_womens_path %>">Women’s</a></li>
+                                <li><a href="<%= product_list_mens_path %>">Men’s</a></li>
+                            <li><a href="<%= product_list_path %>">Shop</a></li>
                             <li><a href="#">Pages</a>
                                 <ul class="dropdown">
                                     <li><a href="./product-details.html">Product Details</a></li>
@@ -112,13 +112,21 @@
 
                         <ul class="header__right__widget">
                             <li><span class="icon_search search-switch"></span></li>
-                            <li><a href="#"><span class="icon_heart_alt"></span>
-                                <div class="tip">2</div>
-                            </a></li>
-                            <li><a href="#"><span class="icon_bag_alt"></span>
-                                <div class="tip">2</div>
-                            </a></li>
-                        </ul>
+                            <li><a href="#"><span class="icon_heart_alt"></span></a></li>
+
+                            <% if current_user %>
+                                <li>
+                                    <%= link_to cart_item_path(current_user.cart), method: :get do %>
+                                    <span class="icon_bag_alt"></span>
+                                    <% if current_user.cart %>
+                                        <div class="tip"><%= current_user.cart.cart_items.count %></div>
+                                    <% else %>
+                                        <div class="tip">0</div>
+                                    <% end %>
+                                    <% end %>
+                                </li>
+                                <% end %>
+                </ul>
                     </div>
                 </div>
             </div>
@@ -217,8 +225,15 @@
                         <ul class="product__hover">
                             <li><a href="img/product/product-1.jpg" class="image-popup"><span class="arrow_expand"></span></a></li>
                             <li><a href="#"><span class="icon_heart_alt"></span></a></li>
-                            <li><a href="#"><span class="icon_bag_alt"></span></a></li>
-                        </ul>
+                            <li>
+                                <%= link_to cart_item_path(current_user.cart), method: :get do %>
+                                <span class="icon_bag_alt"></span>
+                                <% if current_user && current_user.cart %>
+                                    <div class="tip"><%= current_user.cart.cart_items.count %></div>
+                                <% end %>
+                                <% end %>
+
+                            </li>                         </ul>
                     </div>
                     <div class="product__item__text">
                         <h6><a href="#">Buttons tweed blazer</a></h6>
