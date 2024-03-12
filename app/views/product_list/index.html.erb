@@ -152,7 +152,7 @@ $(document).ready(function() {
       }
     });
   });
-  $(document).on('click', '.icon_heart_alt', function(e) {
+$(document).on('click', '.icon_heart_alt', function(e) {
   e.preventDefault();
   var product_id = $(this).data('product-id');
 
@@ -165,7 +165,13 @@ $(document).ready(function() {
       if (response.success) {
         $('.wishlist-count').text(response.count);
       } else {
-        alert('Error: ' + response.errors.join(', '));
+        if (response.errors) {
+          alert('Error: ' + response.errors.join(', '));
+        } else if (response.message) {
+          alert('Error: ' + response.message);
+        } else {
+          console.error('Unknown error in response:', response);
+        }
       }
     },
     error: function(xhr, status, error) {
@@ -173,6 +179,7 @@ $(document).ready(function() {
     }
   });
 });
+
     function updateCartCount(count) {
     $('#cart-count').text(count);
   }

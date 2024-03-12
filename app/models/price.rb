@@ -5,4 +5,10 @@ class Price < ApplicationRecord
 
   validates :price, presence: true
   validates :quantity, presence: true
+  def self.current_price(product, options = {})
+  # Implement logic to fetch the current price based on options (e.g., color, size)
+  # This can be done based on your business rules
+  # For simplicity, assuming there is only one price per product for now
+  product.prices.first&.amount || 0
+end
 end

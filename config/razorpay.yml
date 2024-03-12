@@ -1,0 +1,13 @@
+
+ # config/razorpay.yml
+development:
+  RAZORPAY_KEY_ID: rzp_test_ZCCSyrCe5ZqrEH
+  RAZORPAY_KEY_SECRET: 0jXHYc59iwAKVWDMphgnXlhu
+
+test:
+  RAZORPAY_KEY_ID: rzp_test_ZCCSyrCe5ZqrEH
+  RAZORPAY_KEY_SECRET: 0jXHYc59iwAKVWDMphgnXlhu
+
+production:
+  RAZORPAY_KEY_ID: your_production_razorpay_key_id
+  RAZORPAY_KEY_SECRET: 0jXHYc59iwAKVWDMphgnXlhu 

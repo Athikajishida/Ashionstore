@@ -48,14 +48,7 @@
                                 <li><a href="/product_list/mens">Men’s</a></li>
 
                             <li><a href="<%= product_list_path %>">Shop</a></li>
-                            <li><a href="#">Pages</a>
-                                <ul class="dropdown">
-                                    <li><a href="./product-details.html">Product Details</a></li>
-                                    <li><a href="#">Shop Cart</a></li>
-                                    <li><a href="#">Checkout</a></li>
-                                    <li><a href="#">Blog Details</a></li>
-                                </ul>
-                            </li>
+                            
                             <li><a href="#">Blog</a></li>
                             <li><a href="#">Contact</a></li>
                         </ul>
@@ -82,7 +75,7 @@
                                     <span class="icon_search search-switch"></span>
                                 </li>
                                 <li>
-                                    <a href="#">
+                                    <a href="<%= wishlists_path %>">
                                     <span class="icon_heart_alt"></span>
                                     <div class="tip wishlist-count"><%= current_user.wishlists.count %></div>
                                     </a>

@@ -1,0 +1,14 @@
+<form action="<%= razorpay_payment_success_path %>" method="POST">
+  <script
+    src="https://checkout.razorpay.com/v1/checkout.js"
+    data-key="<%= ENV['rzp_test_ZCCSyrCe5ZqrEH'] %>"
+    data-amount="<%= @order.discounted_total * 100 %>"
+    data-currency="INR"
+    data-order_id="<%= @razorpay_order_id %>"
+    data-callback_url="<%= razorpay_payment_success_url %>"
+    data-prefill.name="<%= @user.name %>"
+    data-prefill.email="<%= @user.email %>"
+    data-theme.color="#F37254"
+  ></script>
+  <input type="hidden" value="<%= @order.id %>" name="order_id">
+</form>

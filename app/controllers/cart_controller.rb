@@ -1,5 +1,5 @@
-class CartsController < ApplicationController
-    before_action :authenticate_user!
+class CartController < ApplicationController
+    # before_action :authenticate_user!
   
     def show
       @cart = current_user.cart
@@ -16,11 +16,12 @@ class CartsController < ApplicationController
     def apply_coupon
       coupon_code = params[:coupon_code]
       coupon = Coupon.find_by(code: coupon_code)
-  
+ 
       if coupon
-        updated_total = calculate_updated_total(current_user.cart.total, coupon.discount_percentage)
+        # inding.pry
+        # updated_total = calculate_updated_total(current_user.cart&.total, coupon.discount_percentage)
   
-        render json: { success: true, total: updated_total }
+        render json: { success: true, total: coupon }
       else
         render json: { success: false }
       end

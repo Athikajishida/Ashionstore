@@ -1,0 +1,35 @@
+
+        <div class="content_body" id="content_body">
+            <div class="wrapper_content_body">
+                <div class="dashboard_statistic">
+                    <h4>Ashion Store Dashboard</h4>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="box_data_quanity">
+                            <%= @total_customers %>                              
+                            <p>Total Customers</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="box_data_quanity">
+                               <%= @total_sales %>
+                                <p>Total Sales</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="box_data_quanity">
+                               <%= number_to_currency(@total_revenue) %>
+                                <p>Total Revenue</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="box_data_quanity">
+                               <%= @number_of_products %>
+                                <p>Number of Products</p>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+        </div>
+    </div>
+

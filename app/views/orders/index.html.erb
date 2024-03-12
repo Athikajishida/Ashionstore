@@ -1,0 +1,37 @@
+ <div class="content_body" id="content_body">
+      <div class="col-lg-3 col-xs-12 col-sm-6">
+        
+      </div>
+      <div class="table_data_check">
+        <div class="table_head_sec">
+          <h2>Order Details</h2>
+        </div>
+        <div class="table_overflow">
+          <table  class="tablenormal">
+            <thead>
+              <tr>
+              <th class="sort_table_row">Order ID</th>
+              <th class="sort_table_row">Order Date</th>
+              <th class="sort_table_row">Payment Methode</th>
+              <th class="sort_table_row">total amount</th>
+              <th class="sort_table_row">Status</th>
+              <th class="sort_table_row">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+             <% @orders.each do |order| %>
+              <tr>
+                <td><%= order.id %></td>
+                <td><%= order.created_at.strftime('%B %d, %Y %H:%M:%S') %></td>
+                <td><%= order.payment_method %></td>
+                <td><%= order.discounted_total %></td>
+                <td><%= order.status %></td>
+                <td><%= link_to 'View Details', order_path(order) %></td>
+              </tr>
+            <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>

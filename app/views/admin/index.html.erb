@@ -8,10 +8,10 @@
                 <ul class="listnav">
 
                     <li>
-                        <a href="" class="activepage" rel="active" data-show="dashboardlist">
-                            <i class="fa-solid fa-gauge"></i>
-                            My Dashboard
-                        </a>
+                    <%= link_to dashboard_path, class: 'activepage', rel: 'active', data: { show: 'dashboardlist' } do %>
+                        <i class="fa-solid fa-gauge"></i>
+                        My Dashboard
+                    <% end %>
                     </li>
 
                     <li>
@@ -49,6 +49,12 @@
                             Coupens
                           <% end %>
                         </li>
+                        <li>
+            <%= link_to orders_path, class: "nav-link" do %>
+            <i class="fa fa-check-square-o"></i>
+            Orders
+            <% end %>
+          </li>
                     <li>
 
                         <a href="javascript:;" data-show="memberreport">

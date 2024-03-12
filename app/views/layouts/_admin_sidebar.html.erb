@@ -1,12 +1,12 @@
    <aside id="asidenav">
       <div class="list_nav_box">
         <ul class="listnav">
-          <li>
-            <a href="" class="activepage" rel="active" data-show="dashboardlist">
-            <i class="fa-solid fa-gauge"></i>
-            My Dashboard
-            </a>
-          </li>
+            <li>
+              <%= link_to dashboard_path, class: 'activepage', rel: 'active', data: { show: 'dashboardlist' } do %>
+                <i class="fa-solid fa-gauge"></i>
+                My Dashboard
+              <% end %>
+            </li>
           <li>
             <%= link_to manage_users_admin_index_path, class: "nav-link" do %>
             <i class="fa fa-plus"></i>
@@ -14,7 +14,7 @@
             <% end %>
           </li>
           <li>
-<%= link_to categories_path, class: "nav-link" do %>
+            <%= link_to categories_path, class: "nav-link" do %>
             <i class="fa fa-users"></i>
             Categories
             <% end %>
@@ -37,6 +37,12 @@
                             Coupens
                           <% end %>
                         </li>
+          <li>
+            <%= link_to orders_path, class: "nav-link" do %>
+            <i class="fa fa-check-square-o"></i>
+            Orders
+            <% end %>
+          </li> 
           <li>
             <a href="javascript:;" data-show="memberreport">
             <i class="fa fa-files-o"></i>

@@ -40,5 +40,15 @@ module MyFirstProject
     #
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
+    config.before_configuration do
+      env_file = Rails.root.join("config", "razorpay.yml")
+    
+      if File.exist?(env_file)
+        env_config = YAML.load_file(env_file)[Rails.env] || {}
+        env_config.each do |key, value|
+          ENV[key.to_s] = value.to_s
+        end
+      end
+    end
   end
 end

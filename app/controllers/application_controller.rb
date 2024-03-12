@@ -8,7 +8,7 @@ class ApplicationController < ActionController::Base
   end
   def calculate_cart_total(cart)
     cart_items_total = cart.cart_items.sum { |item| (item.product.price.to_f * item.quantity.to_i) rescue 0 }
-    return cart_items_total
+    return cart_items_total.round(2)
   end
   private
 

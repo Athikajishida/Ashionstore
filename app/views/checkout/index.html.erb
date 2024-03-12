@@ -1,0 +1,158 @@
+<section class="checkout spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h6 class="coupon__link"><span class="icon_tag_alt"></span> <a href="#">Have a coupon?</a> Click
+                        here to enter your code.</h6>
+                </div>
+            </div>
+            <form action="<%= create_order_checkout_path %>" class="checkout__form" method="post">
+                <div class="row">
+                    <div class="col-lg-8">
+                        <h5>Billing detail</h5>
+                        <div class="row">
+                            <div class="col-lg-8" style="background-color: #f8f8f8; padding: 20px; border: 1px solid #ddd; border-radius: 5px; margin-bottom: 30px;">
+                                <div class="checkout__form__input">
+                                    <p>Logged in as <span>*</span></p>
+                                    <h6><%= @user.email %></h6>
+                                </div>
+                            </div>
+                            <div class="col-lg-8 checkout__form__input" id="address-section" style="background-color: #f8f8f8; padding: 20px; border: 1px solid #ddd; border-radius: 5px; margin-bottom: 30px;">
+                                <p>Select Address <span>*</span></p>
+                                <select id="address-dropdown" name="order[address_id]">
+                                    <% @addresses.each do |address| %>
+                                        <option value="<%= address.id %>"><%= address.full_address %></option>
+                                    <% end %>
+                                </select>
+                                <button id="new-address-btn">Create New Address</button>
+                            </div>
+                            <div id="new-address-form" style="display:none;">
+                                <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="checkout__order">
+                            <h5>Your order</h5>
+                            <div class="checkout__order__product">
+                                <ul>
+                                    <li>
+                                        <span class="top__text">Product</span>
+                                        <span class="top__text__right">Total</span>
+                                    </li>
+                                    <% @cart_item.cart_items.each do |cart_item| %>
+                                        <li><%= cart_item.product.name %><span>$ <%= (cart_item.product.price.to_f * cart_item.quantity.to_i).round(2) %>
+                                        </span></li>
+                                    <% end %>
+                                </ul>
+                            </div>
+                            <div class="checkout__order__total">
+                                <ul>
+                                    <li>Subtotal <span id="cart-total">$<%= calculate_cart_total(current_user.cart) %></span></li>
+                                    <li>Total <span id="cart-discounted-total"></span></li>
+                                    <input type="hidden" name="order[discounted_total]" id="order-discounted-total">
+
+                                </ul>
+                            </div>
+                            <div class="checkout__order__widget">
+                                <label for="o-acc">
+                                    Create an account?
+                                    <input type="checkbox" id="o-acc">
+                                    <span class="checkmark"></span>
+                                </label>
+                                <p>Create an account by entering the information below. If you are a returning customer,
+                                    log in at the top of the page.</p>
+                                <label for="check-payment">
+                                    Cash on delivery
+                                    <input type="checkbox" id="check-payment">
+                                    <span class="checkmark"></span>
+                                </label>
+                                <label for="razorpay">
+                                    Razorpay
+                                    <input type="checkbox" id="razorpay">
+                                    <span class="checkmark"></span>
+                                    <div id="razorpay-form-container" style="display: none;"></div>
+
+                                </label>
+                            </div>
+                           
+                            <input type="hidden" name="order[payment_method]" id="order-payment-method" value="">
+                            <button type="submit" class="site-btn">Place order</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <!-- Checkout Section End -->
+
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script>
+        $('#new-address-btn').on('click', function () {
+            $('#new-address-form').show();
+            $('#address-section').hide();
+        });
+
+        $('input[type="checkbox"]').change(function () {
+            var paymentMethod = $(this).attr('id');
+            $('#order-payment-method').val(paymentMethod);
+        });
+
+        var discountedTotal = sessionStorage.getItem('cartDiscountedTotal');
+        // Set the retrieved discounted total in the cart-discounted-total span
+        $('#cart-discounted-total').text('$' + discountedTotal);
+        $('#order-discounted-total').val(discountedTotal);
+
+        // Ajax to save new address
+        $('#save-address-btn').on('click', function () {
+            var newAddressData = {
+                line1: $('#new-address-line1').val(),
+                // Add more fields as needed
+            };
+
+            $.ajax({
+                type: 'POST',
+                url: '/addresses', // Adjust the route accordingly
+                data: newAddressData,
+                dataType: 'json',
+                success: function (response) {
+                    // Assuming the server sends the new address id in the response
+                    var newAddressId = response.address_id;
+                    // Update the existing addresses dropdown
+                    $('#address-dropdown').append($('<option>', { value: newAddressId, text: 'New Address' }));
+                    // Set the selected option to the newly created address
+                    $('#address-dropdown').val(newAddressId);
+                    // Hide the new address form
+                    $('#new-address-form').hide();
+                    $('#address-section').show();
+                },
+                error: function (xhr, status, error) {
+                    console.error('Ajax Error: ' + error);
+                }
+            });
+        });
+
+$(document).ready(function() {
+  // Listen for checkbox changes
+  $('input[type="checkbox"]').change(function() {
+    var paymentMethod = $(this).attr('id');
+
+    // Hide all payment method forms initially
+    $('#razorpay-form-container').hide();
+
+    // Show the Razorpay form if the Razorpay checkbox is selected
+    if (paymentMethod === 'razorpay' && $(this).is(':checked')) {
+      $.ajax({
+        url: '<%= create_order_checkout_path %>',
+        type: 'GET',
+        data: { payment_method: 'razorpay' },
+        success: function(response) {
+          $('#razorpay-form-container').html(response);
+          $('#razorpay-form-container').show();
+        }
+      });
+    }
+  });
+});
+</script>

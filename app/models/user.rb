@@ -6,6 +6,7 @@ class User < ApplicationRecord
   has_many :addresses
   has_one :cart
   has_many :wishlists
+  has_many :orders
 
   # validates :name, presence: true
   # validates :phone, presence: true, length: { minimum: 10, maximum: 15 }

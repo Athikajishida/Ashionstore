@@ -1,0 +1,41 @@
+ <div class="content_body" id="content_body">
+      <div class="col-lg-3 col-xs-12 col-sm-6">
+      </div>
+      <div class="table_data_check">
+        <div class="table_head_sec">
+          <h2>Order Details - Order ID: <%= @order.id %></h2>
+        </div>
+        <div class="table_overflow">
+          <table  class="tablenormal">
+            <thead>
+              <tr>
+              <th class="sort_table_row">Item ID</th>
+              <th class="sort_table_row">Product Name</th>
+              <th class="sort_table_row">Quantity</th>
+              <th class="sort_table_row">Price</th>
+              </tr>
+            </thead>
+            <tbody>
+            <% @order_items.each do |item| %>
+              <tr>
+                <td><%= item.id %></td>
+                <td><%= item.product.name %></td>
+                <td><%= item.quantity %></td>
+                <td><%= item.unit_price %></td>
+              </tr>
+            <% end %>
+            </tbody>
+          </table>
+          <p>Status: <%= @order.status %></p>
+
+          <%= form_tag(change_status_order_path(@order), method: :put) do %>
+            <label for="status">Change Status:</label>
+            <%= select_tag 'status', options_for_select(['Pending', 'Confirmed'], @order.status), include_blank: 'Select Status' %>
+            <%= submit_tag 'Update Status' %>
+          <% end %>
+
+        </div>
+      </div>
+    </div>
+  </div>
+

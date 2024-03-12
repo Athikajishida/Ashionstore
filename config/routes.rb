@@ -3,10 +3,8 @@ Rails.application.routes.draw do
 
   resources :categories 
   resources :addresses
-  resources :wishlists, only: [:index, :create, :destroy]
   resources :coupons
-
-
+ 
   # devise_for :users, controllers: {
   #   sessions: 'users/sessions'
   # }
@@ -32,9 +30,14 @@ end
 
   end
   post '/add_to_cart', to: 'product_list#add_to_cart', as: 'add_to_cart'
-  post '/apply_coupon', to: 'cart#apply_coupon'
+  get '/apply_coupon', to: 'cart#apply_coupon'
 
   resources :products do
+  end
+  resources :wishlists, only: [:index, :create] do
+    member do
+      delete 'remove', to: 'wishlists#destroy', as: 'remove'
+    end
   end
   get '/product_list', to: 'product_list#index'
   get '/product_list/mens', to: 'product_list#mens'
@@ -42,8 +45,17 @@ end
 
   get 'load_subcategories/:id', to: 'products#load_subcategories'
   resources :cart_items, only: [:destroy]
+  get '/checkout', to: 'checkout#index', as: 'checkout_index'
+  post '/create_order_checkout', to: 'checkout#create_order', as: 'create_order_checkout'
+  get '/order_success', to: 'checkout#order_success', as: 'order_success'
+  post 'razorpay_payment_success', to: 'checkout#razorpay_payment_success'
 
   root 'welcome#index'
   get 'user_list', to: 'admin#user_list'
+  resources :orders do
+    put 'change_status', on: :member
+    get 'generate_invoice', on: :collection  
+  end
+  get '/dashboard', to: 'dashboards#index', as: 'dashboard'
 
 end

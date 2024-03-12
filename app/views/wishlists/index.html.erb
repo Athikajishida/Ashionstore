@@ -23,14 +23,11 @@
                                     </div>
                                 </td>
                                 <td class="cart__price">$ <%= wishlist.product.price %></td>
-                                <td class="cart__quantity">
-                                    <div class="pro-qty">
-                                    <input type="text" value="<%= wishlist.quantity %>" readonly>
-                                    </div>
-                                </td>
-                                <td class="cart__close">
-                                    <%= link_to 'Remove', wishlist_path(wishlist), method: :delete, class: 'icon_close', data: { confirm: 'Are you sure?' } %>
-                                </td>
+                              <td class="cart__close">
+  <span class="icon_close">
+<%= link_to('', remove_wishlist_path(wishlist), method: :delete, title: 'Remove', 'data-wishlist-id': wishlist.id, class: 'remove-wishlist-link') %>
+  </span>
+</td>                    
                                 </tr>
                             <% end %>
                             </tbody>
@@ -51,16 +48,30 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-lg-6">
-                    <div class="discount__content">
-                        <h6>Discount codes</h6>
-                        <form action="#">
-                            <input type="text" placeholder="Enter your coupon code">
-                            <button type="submit" class="site-btn">Apply</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
+       
         </div>
     </section>
+<script>
+$(document).on('click', '.icon_close a', function(e) {
+  e.preventDefault();
+  var wishlistItemId = $(this).data('wishlist-id');
+
+  $.ajax({
+    type: 'DELETE',
+    url: '/wishlists/' + wishlistItemId,
+    dataType: 'json',
+    success: function(response) {
+      if (response.success) {
+        alert(response.message);
+        $(e.target).closest('.cart__close').remove();
+      } else {
+        alert('Error: ' + response.message);
+      }
+    },
+    error: function(xhr, status, error) {
+      console.error('AJAX Error: ' + error);
+    }
+  });
+});
+
+</script>

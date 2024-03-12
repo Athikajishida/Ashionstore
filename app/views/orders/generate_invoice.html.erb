@@ -1,0 +1,118 @@
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body p-0">
+                    <div class="row p-5">
+                        <div class="col-md-6">
+                            <img src="img/logo.png" alt="">
+                        </div>
+
+                        <div class="col-md-6 text-right">
+                            <p class="font-weight-bold mb-1">Invoice #550</p>
+
+                            <p class="text-muted">Date: 4 Dec, 2019</p>
+                        </div>
+                    </div>
+
+                    <hr class="my-5">
+
+                    <div class="row pb-5 p-5">
+                        <div class="col-md-6">
+                         <% if @last_order && @last_order.address %>
+                           <p class="font-weight-bold mb-4">Client Information</p>
+                            <p class="mb-1"><%= @last_order.address.house %>,
+                             <p><%= @last_order.address.place %></p>
+                            <p class="mb-1"><%= @last_order.address.pincode %></p>
+                        <% else %>
+                            <p class="mb-1">Address not available</p>
+                        <% end %>  
+                        </div>
+
+                        <div class="col-md-6 text-right">
+                            <p class="font-weight-bold mb-4">Payment Details</p>
+                            <p class="mb-1"><span class="text-muted">VAT: </span> 1425782</p>
+                            <p class="mb-1"><span class="text-muted">VAT ID: </span> 10253642</p>
+                            <p class="mb-1"><span class="text-muted">Payment Type: </span> Root</p>
+                            <p class="mb-1"><span class="text-muted">Name: </span> John Doe</p>
+                        </div>
+                    </div>
+
+                    <div class="row p-5">
+                        <div class="col-md-12">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th class="border-0 text-uppercase small font-weight-bold">ID</th>
+                                        <th class="border-0 text-uppercase small font-weight-bold">Item</th>
+                                        <th class="border-0 text-uppercase small font-weight-bold">Description</th>
+                                        <th class="border-0 text-uppercase small font-weight-bold">Quantity</th>
+                                        <th class="border-0 text-uppercase small font-weight-bold">Unit Cost</th>
+                                        <th class="border-0 text-uppercase small font-weight-bold">Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                     <% @order_items.each do |order_item| %>
+                                    <tr>
+                                        <td><%= @last_order.id %></td>
+                                        <td><%= order_item.product.name %></td>
+                                        <td><%= order_item.product.description %></td>
+                                        <td><%= order_item.quantity %></td>
+                                        <td>$<%= order_item.product.price %></td>
+                                        <td>$<%= order_item.unit_price * order_item.quantity %></td>
+                                    </tr>
+                                    <% end %>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="d-flex flex-row-reverse bg-dark text-white p-4">
+                        <div class="py-3 px-5 text-right">
+                            <div class="mb-2">Grand Total</div>
+                            <div class="h2 font-weight-light">$<%= @last_order.discounted_total%></div>
+                        </div>
+
+                        <div class="py-3 px-5 text-right">
+                            <div class="mb-2">Discount</div>
+                            <div class="h2 font-weight-light">10%</div>
+                        </div>
+
+                        <div class="py-3 px-5 text-right">
+                            <div class="mb-2">Sub - Total amount</div>
+                            <div class="h2 font-weight-light">$<%= @grand_total %></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> 
+
+    <div class="row">
+            <div class="col-md-12 text-center">
+                <!-- Add a "Print" button -->
+                <button id="printButton" class="btn btn-primary">Print</button>
+            </div>
+    </div>
+</div>
+<script src="https://rawgit.com/eKoopmans/html2pdf/master/dist/html2pdf.bundle.js"></script>
+
+<script>
+    function generatePDF() {
+        setTimeout(function () {
+            const element = document.querySelector('.card-body');
+            html2pdf(element, {
+                margin: 3,
+                filename: 'invoice.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2 },
+                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            });
+        }, 10000); // Adjust the delay as needed
+    }
+
+    // Attach the function to the "Print" button click event
+    document.getElementById('printButton').addEventListener('click', generatePDF);
+</script>

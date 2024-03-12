@@ -31,7 +31,8 @@
                                       <input type="text" value="<%= cart_item.quantity %>">
                                     </div>
                                     </td>
-                                    <td class="cart__total">$ <%= cart_item.product.price.to_f * cart_item.quantity.to_i %></td>
+                                    <td class="cart__total">$ <%= (cart_item.product.price.to_f * cart_item.quantity.to_i).round(2) %>
+</td>
                                     <td class="cart__close">
                                     <span class="icon_close" data-cart-item-id="<%= cart_item.id %>"></span>
                                     </td>                                </tr>
@@ -59,7 +60,7 @@
                         <h6>Discount codes</h6>
                         <form id="coupon-form">
                             <input type="text"  id="coupon-code" placeholder="Enter your coupon code">
-                            <button type="submit" id="apply-coupon" class="site-btn">Apply</button>
+                            <button type="button" id="apply-coupon" class="site-btn">Apply</button>
                         </form>
                     </div>
                 </div>
@@ -67,10 +68,11 @@
                     <div class="cart__total__procced">
                         <h6>Cart total</h6>
                         <ul>
-                            <li>Subtotal <span id="cart-total">$<%= calculate_cart_total(current_user.cart) %></span></li>
-                            <li>Total <span id="cart-total">$ </span></li>
+                           <li>Subtotal <span id="cart-total">$<%= calculate_cart_total(current_user.cart) %></span></li>
+                           <li>Total <span id="cart-discounted-total">$ </span></li>
                         </ul>
-                        <a href="#" class="primary-btn">Proceed to checkout</a>
+                     <a href="#" id="proceed-to-checkout-link" class="primary-btn">Proceed to checkout</a>
+
                     </div>
                 </div>
             </div>
@@ -99,30 +101,60 @@
         }
       });
     });
-
 $('#apply-coupon').on('click', function() {
-      var couponCode = $('#coupon-code').val();
+  var couponCode = $('#coupon-code').val();
+  
+  $.ajax({
+    type: 'GET',
+    url: '/apply_coupon?coupon_code=' + couponCode,
+    dataType: 'json',
+    success: function(response) {
+      console.log(response); // Log the entire response for debugging
 
-      $.ajax({
-        type: 'POST',
-        url: '/apply_coupon',
-        data: { coupon_code: couponCode },
-        dataType: 'json',
-        success: function(response) {
-          if (response.success) {
-            updateCartTotal(response.total);
-          } else {
-            alert('Invalid coupon code. Please try again.');
-          }
-        },
-        error: function(xhr, status, error) {
-          console.error('Ajax Error: ' + error);
+      if (response.success && response.total && 'discount_percentage' in response.total) {
+        var subtotalElement = $('#cart-total');
+        var subtotal = parseFloat(subtotalElement.text().replace('$', ''));
+        var discountPercentage = parseFloat(response.total.discount_percentage);
+
+        
+        if (!isNaN(subtotal) && !isNaN(discountPercentage)) {
+          var discountedTotal = calculateDiscountedTotal(subtotal, discountPercentage);
+
+          updateCartTotal(subtotal, discountedTotal);
+          sessionStorage.setItem('cartDiscountedTotal', discountedTotal.toFixed(2));
+
+        } else {
+          console.error('Invalid numeric values in the server response.');
         }
-      });
-    });
-
-    function updateCartTotal(total) {
-      $('#cart-total').text(total);
+      } else {
+        console.error('Invalid or missing values in the server response.');
+        // Optionally, you can display an alert or handle the error as needed.
+      }
+    },
+    error: function(xhr, status, error) {
+      console.error('Ajax Error: ' + error);
+      // Optionally, you can display an alert or handle the error as needed.
     }
+  });
+});
+$('#proceed-to-checkout-link').on('click', function(event) {
+  event.preventDefault(); 
+  var discountedTotalValue = sessionStorage.getItem('cartDiscountedTotal');
+  console.log('Discounted Total Value:', discountedTotalValue);
+window.location.href = '<%= checkout_index_path %>';
+});
+
+function updateCartTotal(subtotal, discountedTotal) {
+  $('#cart-total').text('$' + subtotal.toFixed(2));
+  $('#cart-discounted-total').text('$' + discountedTotal.toFixed(2));
+}
+
+function calculateDiscountedTotal(subtotal, discountPercentage) {
+  if (discountPercentage >= 100) {
+    return 0; 
+  }
+  var discount = (discountPercentage / 100) * subtotal;
+  return subtotal - discount;
+}
   });
 </script>
