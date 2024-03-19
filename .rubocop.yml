@@ -1,0 +1,19 @@
+# .rubocop.yml
+
+# List of files and directories to exclude from RuboCop checks
+AllCops:
+  Exclude:
+    - 'vendor/**/*' # Exclude files in the vendor directory
+    - 'db/schema.rb' # Exclude the database schema file
+
+# Exclude specific cops (style rules) from running
+Style/FrozenStringLiteralComment:
+  Exclude:
+    - 'lib/**/*.rb' # Exclude the lib directory from FrozenStringLiteralComment cop
+
+# Exclude specific lines from being checked by RuboCop
+Metrics/LineLength:
+  Exclude:
+    - 'config/routes.rb' # Exclude line length checking in routes.rb
+    - 'app/views/**/*.html.erb': # Exclude line length checking in all HTML.erb files
+      - 'app/views/layouts/*.html.erb' # Exclude line length checking in layout files

@@ -22,7 +22,7 @@ class OrdersController < ApplicationController
        @order_items = @last_order.order_items
        @grand_total = calculate_grand_total(@order_items)
        @address = @last_order.address
-       render layout: 'user_layouts', template: 'order/generate_invoice'
+       render layout: 'user_layouts', template: 'orders/generate_invoice'
 
     else
       flash[:error] = "No orders found."
@@ -35,3 +35,4 @@ def calculate_grand_total(order_items)
   order_items.present? ? order_items.sum { |item| item.unit_price * item.quantity } : 0
 end
 end
+                                                                                                                                                                                                                                                                                                         

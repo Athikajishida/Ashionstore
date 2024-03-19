@@ -75,3 +75,4 @@ gem 'dotenv', groups: [:development, :test]
 gem 'kaminari'
 gem 'jquery-rails'
 gem 'razorpay'
+gem 'sweetalert-rails'

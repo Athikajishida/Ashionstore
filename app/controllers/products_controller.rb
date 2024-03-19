@@ -18,14 +18,12 @@ class ProductsController < ApplicationController
       format.json { render json: { subcategories: @subcategories } } # Respond with JSON for AJAX requests
     end
   end
-
   def create
-    params[:product][:subcategory_id] = nil if params[:product][:subcategory_id].blank?
-    create_price_combinations(@product, params[:product])
     @product = Product.new(product_params)
+  
     if @product.save
-      variants_attributes = JSON.parse(params[:product][:variants_attributes])
-      create_price_combinations(@product, variants_attributes)
+      create_price_combinations(params[:product][:variants_attributes]) if params[:product][:variants_attributes].present?
+
       redirect_to @product, notice: 'Product was successfully created.'
     else
       render :new
@@ -80,13 +78,15 @@ class ProductsController < ApplicationController
     params.require(:product).permit(:name, :description, :category_id, :subcategory_id, :size_id, :color_id, :image, variants_attributes: [:size_id, :color_id, :price, :quantity])
   end
 
-  def create_price_combinations(product, variants_attributes)
-    variants_attributes.each do |variant|
-      color_id = variant['color_id']
-      size_id = variant['size_id']
-      price = variant['price']
-      quantity = variant['quantity']
-      product.prices.create(color_id: color_id, size_id: size_id, price: price, quantity: quantity)
+  def create_price_combinations(variants_attributes)
+    variants_attributes.each do |_, variant_params|
+      price = @product.prices.new(
+        color_id: variant_params[:color_id],
+        size_id: variant_params[:size_id],
+        price: variant_params[:price],
+        quantity: variant_params[:quantity]
+      )
+      price.save
     end
   end
 

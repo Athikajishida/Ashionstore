@@ -13,6 +13,7 @@ class ProductListController < ApplicationController
     @subcategories = Subcategory.all
     @cart_item = current_user.cart
     ActiveStorage::Current.url_options = { host: request.base_url }
+
   end
   def mens
     ActiveStorage::Current.url_options = { host: request.base_url }
@@ -55,5 +56,17 @@ class ProductListController < ApplicationController
     render json: { success: true, message: 'Product added to cart successfully' }
   end
   
+  def show
+    ActiveStorage::Current.url_options = { host: request.base_url }
+    @product = Product.includes(:variants, :category, :subcategory, :size, :color).find(params[:id])
+    @prices = Price.all
+    @categories = Category.all
+    @sizes = Size.all
+    @colors = Color.all
+    @subcategories = Subcategory.all
+    @cart_item = current_user.cart
 
+    # You can customize this based on your view requirements
+    render :show
+  end
 end

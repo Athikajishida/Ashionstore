@@ -1,6 +1,9 @@
+# frozen_string_literal: true
+
+# Handles CRUD operations for user addresses.
 class AddressesController < ApplicationController
   before_action :authenticate_user!
-  layout "user_layouts" 
+  layout 'user_layouts'
   def index
     @addresses = current_user.addresses
   end

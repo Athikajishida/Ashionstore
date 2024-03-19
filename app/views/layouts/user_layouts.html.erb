@@ -19,15 +19,16 @@
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <!-- Css Styles -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10.16.6/dist/sweetalert2.min.css">
 
-    <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
-    <link rel="stylesheet" href="css/font-awesome.min.css" type="text/css">
-    <link rel="stylesheet" href="css/elegant-icons.css" type="text/css">
-    <link rel="stylesheet" href="css/jquery-ui.min.css" type="text/css">
-    <link rel="stylesheet" href="css/magnific-popup.css" type="text/css">
-    <link rel="stylesheet" href="css/owl.carousel.min.css" type="text/css">
-    <link rel="stylesheet" href="css/slicknav.min.css" type="text/css">
-    <link rel="stylesheet" href="css/style.css" type="text/css">
+    <%= stylesheet_link_tag "/assets/css/bootstrap.min.css" %>
+    <%= stylesheet_link_tag "/assets/css/font-awesome.min.css" %>
+    <%= stylesheet_link_tag "/assets/css/elegant-icons.css" %>
+    <%= stylesheet_link_tag "/assets/css/jquery-ui.min.css" %>
+    <%= stylesheet_link_tag "/assets/css/magnific-popup.css" %>
+    <%= stylesheet_link_tag "/assets/css/owl.carousel.min.css" %>
+    <%= stylesheet_link_tag "/assets/css/slicknav.min.css" %>
+          <%= stylesheet_link_tag "/assets/style.css" %>
 </head>
 
 <body>
@@ -46,16 +47,18 @@
 <!-- Search End -->
 
 <!-- Js Plugins -->
-<script src="js/jquery-3.3.1.min.js"></script>
-<script src="js/bootstrap.min.js"></script>
-<script src="js/jquery.magnific-popup.min.js"></script>
-<script src="js/jquery-ui.min.js"></script>
-<script src="js/mixitup.min.js"></script>
-<script src="js/jquery.countdown.min.js"></script>
-<script src="js/jquery.slicknav.js"></script>
-<script src="js/owl.carousel.min.js"></script>
-<script src="js/jquery.nicescroll.min.js"></script>
-<script src="js/main.js"></script>
+<%= javascript_include_tag '/js/jquery-3.3.1.min.js' %>
+<%= javascript_include_tag '/js/bootstrap.min.js' %>
+<%= javascript_include_tag '/js/jquery.magnific-popup.min.js' %>
+<%= javascript_include_tag '/js/jquery-ui.min.js' %>
+<%= javascript_include_tag '/js/mixitup.min.js' %>
+<%= javascript_include_tag '/js/jquery.countdown.min.js' %>
+<%= javascript_include_tag '/js/jquery.slicknav.js' %>
+<%= javascript_include_tag '/js/owl.carousel.min.js' %>
+
+<%= javascript_include_tag '/js/jquery.nicescroll.min.js' %>
+<%= javascript_include_tag '/js/main.js' %>
+
 </body>
 
 </html>

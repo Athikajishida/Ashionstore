@@ -72,8 +72,7 @@ class CheckoutController < ApplicationController
       )
     )
   
-    # Create a Razorpay order
-    razorpay_order = Razorpay::Order.create(amount: order.discounted_total * 100, currency: 'INR')
+    razorpay_order = Razorpay::Order.create(amount: order.discounted_total * 100, currency: 'INR', receipt: 'TEST')
   
     # Store Razorpay order_id in your order record
     order.update(razorpay_order_id: razorpay_order.id)
