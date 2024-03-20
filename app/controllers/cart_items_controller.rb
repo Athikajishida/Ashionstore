@@ -33,9 +33,29 @@ class CartItemsController < ApplicationController
     def destroy
       @cart_item = CartItem.find(params[:id])
       @cart_item.destroy
-       cart_total = calculate_cart_total(current_user.cart)
-      render json: { success: true, cart_total: cart_total }
-    end 
+      render json: { success: true }
+    rescue ActiveRecord::RecordNotFound
+      render json: { success: false, error: "Cart item not found" }, status: :not_found
+  end
+    def increment_quantity
+      cart_item = current_user.cart.cart_items.find_by(id: params[:id])
+      if cart_item
+        cart_item.update(quantity: cart_item.quantity + 1)
+        render json: { success: true, new_quantity: cart_item.quantity }
+      else
+        render json: { success: false, error: "Cart item not found" }, status: :unprocessable_entity
+      end
+    end
+  
+    def decrement_quantity
+      cart_item = current_user.cart.cart_items.find_by(id: params[:id])
+      if cart_item && cart_item.quantity > 0
+        cart_item.update(quantity: cart_item.quantity - 1)
+        render json: { success: true, new_quantity: cart_item.quantity }
+      else
+        render json: { success: false, error: "Cart item not found or quantity is already zero" }, status: :unprocessable_entity
+      end
+    end
     private
   
   

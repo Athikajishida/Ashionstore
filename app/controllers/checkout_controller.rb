@@ -71,7 +71,7 @@ class CheckoutController < ApplicationController
         cart_id: current_user.cart.id
       )
     )
-  
+  binding.pry
     razorpay_order = Razorpay::Order.create(amount: order.discounted_total * 100, currency: 'INR', receipt: 'TEST')
   
     # Store Razorpay order_id in your order record

@@ -78,17 +78,17 @@ class ProductsController < ApplicationController
     params.require(:product).permit(:name, :description, :category_id, :subcategory_id, :size_id, :color_id, :image, variants_attributes: [:size_id, :color_id, :price, :quantity])
   end
 
-  def create_price_combinations(variants_attributes)
-    variants_attributes.each do |_, variant_params|
-      price = @product.prices.new(
-        color_id: variant_params[:color_id],
-        size_id: variant_params[:size_id],
-        price: variant_params[:price],
-        quantity: variant_params[:quantity]
-      )
-      price.save
-    end
-  end
+  # def create_price_combinations(variants_attributes)
+  #   variants_attributes.each do |_, variant_params|
+  #     price = @product.prices.new(
+  #       color_id: variant_params[:color_id],
+  #       size_id: variant_params[:size_id],
+  #       price: variant_params[:price],
+  #       quantity: variant_params[:quantity]
+  #     )
+  #     price.save
+  #   end
+  # end
 
 
    

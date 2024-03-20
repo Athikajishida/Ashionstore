@@ -206,23 +206,35 @@ Created: Colorib
 		Quantity change
 	--------------------- */
     var proQty = $('.pro-qty');
-	proQty.prepend('<span class="dec qtybtn">-</span>');
-	proQty.append('<span class="inc qtybtn">+</span>');
-	proQty.on('click', '.qtybtn', function () {
-		var $button = $(this);
-		var oldValue = $button.parent().find('input').val();
-		if ($button.hasClass('inc')) {
-			var newVal = parseFloat(oldValue) + 1;
-		} else {
-			// Don't allow decrementing below zero
-			if (oldValue > 0) {
-				var newVal = parseFloat(oldValue) - 1;
-			} else {
-				newVal = 0;
-			}
-		}
-		$button.parent().find('input').val(newVal);
+
+    proQty.prepend('<span class="dec qtybtn">-</span>');
+    proQty.append('<span class="inc qtybtn">+</span>');
+    
+    proQty.on('click', '.qtybtn', function () {
+      var $button = $(this);
+      var cartItemId = $button.closest('.pro-qty').data('cart-item-id');
+      var action = $button.hasClass('inc') ? 'increment_quantity' : 'decrement_quantity';
+    
+      $.ajax({
+        type: 'POST',
+        url: '/' + action + '/' + cartItemId,
+        success: function (response) {
+          if (response.success) {
+            // Update the input field value with the new quantity
+            $('#quantity_' + cartItemId).val(response.new_quantity);
+            // Update the total price element
+            var totalPrice = (parseFloat('<%= cart_item.product.price %>') * response.new_quantity).toFixed(2);
+            $('#total_price_' + cartItemId).text('$ ' + totalPrice);
+          } else {
+            alert('Error: ' + response.error);
+          }
+        },
+        error: function () {
+          alert('Error: Something went wrong.');
+        }
+      });
     });
+    
     
     /*-------------------
 		Radio Btn
