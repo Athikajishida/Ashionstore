@@ -87,8 +87,8 @@ production:
   adapter: postgresql
   encoding: unicode
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  database: my_first_project_production
-  username: my_first_project
-  password: <%= ENV["MY_FIRST_PROJECT_DATABASE_PASSWORD"] %>
-  host: localhost
-  port: 5433
+  database: ecommerce_765n
+  username: admin
+  password: VwDODIeoIOjfQlqBTt9OHbufzYjv5HyC
+  host: dpg-cnu4nomct0pc73e40k2g-a
+  port: 5432
