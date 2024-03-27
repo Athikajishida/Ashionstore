@@ -31,5 +31,15 @@ environment ENV.fetch("RAILS_ENV") { "development" }
 # Specifies the `pidfile` that Puma will use.
 pidfile ENV.fetch("PIDFILE") { "tmp/pids/server.pid" }
 
+# SSL configuration
+if ENV["RAILS_ENV"] == "production"
+  ssl_bind '0.0.0.0', '443', {
+    key: '/Users/mohamedahmed/Desktop/AthikaJishida/RubyProjects/MyFirstProject/key.pem', # Path to your SSL private key file
+    cert: '/Users/mohamedahmed/Desktop/AthikaJishida/RubyProjects/MyFirstProject/cert.pem', # Path to your SSL certificate file
+    ssl_cipher: 'TLSv1.2:!aNULL:!eNULL',
+    verify_mode: 'none' # Change this according to your SSL requirements
+  }
+end
+
 # Allow puma to be restarted by `bin/rails restart` command.
 plugin :tmp_restart
