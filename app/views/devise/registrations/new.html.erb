@@ -1,5 +1,16 @@
-<h2>Sign up</h2>
-
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="breadcrumb__links">
+                        <a href="#"><i class="fa fa-home"></i> User</a>
+                        <span>Sign Up</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<section class="checkout spad">
+  <div class="container">
 <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
   <%= render "devise/shared/error_messages", resource: resource %>
    <div class="col-md-6">
@@ -48,5 +59,6 @@
   </div>
   </div>
 <% end %>
-
+</div>
+</div>
 <%= render "devise/shared/links" %>
