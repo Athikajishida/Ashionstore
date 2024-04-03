@@ -1,38 +1,43 @@
-<%= form_with model: @address, local: true do |form| %>
+<%= form_with(model: address, local: true) do |form| %>
+  <div class="col-lg-6 col-md-6 col-sm-6">
   <div class="field">
     <%= form.label :house %>
     <%= form.text_field :house %>
   </div>
-
+  </div>
+  <div class="col-lg-6 col-md-6 col-sm-6">
   <div class="field">
     <%= form.label :area %>
     <%= form.text_field :area %>
   </div>
-
+  </div>
+  <div class="col-lg-6 col-md-6 col-sm-6">
   <div class="field">
     <%= form.label :place %>
     <%= form.text_field :place %>
   </div>
-
+  </div>
+  <div class="col-lg-6 col-md-6 col-sm-6">
   <div class="field">
     <%= form.label :pincode %>
     <%= form.text_field :pincode %>
   </div>
-
+  </div>
+  <div class="col-lg-6 col-md-6 col-sm-6">
   <div class="field">
     <%= form.label :address_type %>
-    <div class="styled-select">
-      <%= form.select :address_type, options_for_select(['Home', 'Office', 'Other']) %>
-    </div>
+    <%= form.select :address_type, ['Home', 'Office', 'Other'] %>
   </div>
-
+  </div>
+  <div class="col-lg-6 col-md-6 col-sm-6">
   <div class="field">
     <%= form.label :city_id %>
     <%= form.collection_select :city_id, City.all, :id, :cityname %>
   </div>
-
-  <div>
+  </div>
+  <div class="col-lg-6 col-md-6 col-sm-6">
+  <div class="actions">
     <%= form.submit %>
   </div>
-
+  </div>
 <% end %>
