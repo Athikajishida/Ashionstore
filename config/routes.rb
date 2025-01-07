@@ -3,7 +3,6 @@ Rails.application.routes.draw do
   resources :categories 
   resources :addresses
   resources :coupons
-<<<<<<< HEAD
  
   # devise_for :users, controllers: {
   #   sessions: 'users/sessions'
@@ -15,15 +14,6 @@ as :user do
   match 'signout', to: 'devise/sessions#destroy', as: :destroy_user_session, via: Devise.mappings[:user].sign_out_via
 
 end
-=======
-
-  devise_for :users, skip: [:sessions]
-  as :user do
-    get 'signin', to: 'devise/sessions#new', as: :new_user_session
-    post 'signin', to: 'devise/sessions#create', as: :user_session
-    match 'signout', to: 'devise/sessions#destroy', as: :destroy_user_session, via: Devise.mappings[:user].sign_out_via
-  end
->>>>>>> bee03ee8d7649d7e484414cf53ec03fe577c4217
 
   resources :admin, only: [:index, :show, :edit, :update, :destroy] do
     member do
@@ -79,3 +69,4 @@ end
   get '/dashboard', to: 'dashboards#index', as: 'dashboard'
 
 end
+#git conflict solved
