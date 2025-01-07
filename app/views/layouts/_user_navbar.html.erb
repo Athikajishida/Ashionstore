@@ -12,7 +12,7 @@
             </a></li>
         </ul>
         <div class="offcanvas__logo">
-            <a href="./index.html"><img src="img/logo.png" alt=""></a>
+            <a href="<%= link_to '', root_path %>"><img src="img/logo.png" alt=""></a>
         </div>
         <div id="mobile-menu-wrap"></div>
         <div class="offcanvas__auth">
@@ -88,7 +88,7 @@
                                     </a>
                                 </li>
                                 <% end %>
-                                <% if current_user %>
+                                <% if current_user && current_user.cart%>
                                 <li>
                                     <%= link_to cart_item_path(current_user.cart), method: :get do %>
                                     <span class="icon_bag_alt"></span>

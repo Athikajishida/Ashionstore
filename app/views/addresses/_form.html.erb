@@ -1,38 +1,88 @@
-<%= form_with model: @address, local: true do |form| %>
-  <div class="field">
-    <%= form.label :house %>
-    <%= form.text_field :house %>
-  </div>
-
-  <div class="field">
-    <%= form.label :area %>
-    <%= form.text_field :area %>
-  </div>
-
-  <div class="field">
-    <%= form.label :place %>
-    <%= form.text_field :place %>
-  </div>
-
-  <div class="field">
-    <%= form.label :pincode %>
-    <%= form.text_field :pincode %>
-  </div>
-
-  <div class="field">
-    <%= form.label :address_type %>
-    <div class="styled-select">
-      <%= form.select :address_type, options_for_select(['Home', 'Office', 'Other']) %>
+<%= form_with(model: @address, local: true, class: "address-form") do |f| %>
+  <% if @address.errors.any? %>
+    <div class="alert alert-danger">
+      <h4><%= pluralize(@address.errors.count, "error") %> prohibited this address from being saved:</h4>
+      <ul>
+        <% @address.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
     </div>
+  <% end %>
+
+  <div class="form-group mb-3">
+    <%= f.label :house, "House/Flat/Building", style: "display: block; margin-bottom: 5px;" %>
+    <%= f.text_field :house, class: "form-control", style: "width: 100%; padding: 8px;" %>
   </div>
 
-  <div class="field">
-    <%= form.label :city_id %>
-    <%= form.collection_select :city_id, City.all, :id, :cityname %>
+  <div class="form-group mb-3">
+    <%= f.label :area, "Area/Street", style: "display: block; margin-bottom: 5px;" %>
+    <%= f.text_field :area, class: "form-control", style: "width: 100%; padding: 8px;" %>
   </div>
 
-  <div class="actions">
-    <%= form.submit %>
+  <div class="form-group mb-3">
+    <%= f.label :place, "Locality/Place", style: "display: block; margin-bottom: 5px;" %>
+    <%= f.text_field :place, class: "form-control", style: "width: 100%; padding: 8px;" %>
   </div>
 
+  <div class="form-group mb-3">
+    <%= f.label :pincode, style: "display: block; margin-bottom: 5px;" %>
+    <%= f.text_field :pincode, class: "form-control", style: "width: 100%; padding: 8px;" %>
+  </div>
+
+  <div class="form-group mb-3">
+    <%= f.label :address_type, style: "display: block; margin-bottom: 5px;" %>
+    <%= f.select :address_type, 
+                 options_for_select(['Home', 'Office', 'Other'], @address.address_type),
+                 {},
+                 class: "form-control",
+                 style: "width: 100%; padding: 8px;" %>
+  </div>
+
+  <div class="form-group mb-3">
+    <%= f.label :city_id, "City", style: "display: block; margin-bottom: 5px;" %>
+    <%= f.collection_select :city_id,
+                           City.all,
+                           :id,
+                           :cityname,
+                           { prompt: "Select a city" },
+                           class: "form-control",
+                           style: "width: 100%; padding: 8px;" %>
+  </div>
+
+  <div class="form-actions" style="margin-top: 20px;">
+    <%= f.submit class: "site-btn", style: "margin-right: 10px;" %>
+    <%= link_to 'Back', addresses_path, class: "btn btn-secondary" %>
+  </div>
 <% end %>
+<style>
+.address-box {
+  border: 1px solid #ddd;
+  padding: 15px;
+  margin-bottom: 15px;
+  border-radius: 4px;
+}
+
+.address-info {
+  margin: 10px 0;
+  line-height: 1.5;
+}
+
+.form-control {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.alert {
+  padding: 15px;
+  margin-bottom: 20px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+}
+
+.alert-danger {
+  color: #721c24;
+  background-color: #f8d7da;
+  border-color: #f5c6cb;
+}
+</style>

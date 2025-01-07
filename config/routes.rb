@@ -13,6 +13,7 @@ as :user do
   get 'signin', to: 'devise/sessions#new', as: :new_user_session
   post 'signin', to: 'devise/sessions#create', as: :user_session
   match 'signout', to: 'devise/sessions#destroy', as: :destroy_user_session, via: Devise.mappings[:user].sign_out_via
+
 end
 
   resources :admin, only: [:index, :show, :edit, :update, :destroy] do
@@ -42,8 +43,9 @@ end
   get '/product_list', to: 'product_list#index'
   get '/product_list/mens', to: 'product_list#mens'
   get '/product_list/womens', to: 'product_list#womens'
+  get '/product_list/show/:id', to: 'product_list#show', as: 'product_list_show'
 
-  get 'load_subcategories/:id', to: 'products#load_subcategories'
+   get 'load_subcategories/:id', to: 'products#load_subcategories'
   resources :cart_items, only: [:destroy]
   get '/checkout', to: 'checkout#index', as: 'checkout_index'
   post '/create_order_checkout', to: 'checkout#create_order', as: 'create_order_checkout'

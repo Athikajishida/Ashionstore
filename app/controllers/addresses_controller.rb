@@ -1,8 +1,10 @@
 class AddressesController < ApplicationController
   before_action :authenticate_user!
-  layout "user_layouts" 
+  before_action :set_address, only: [:edit, :update, :destroy]
+  layout "user_layouts"
+
   def index
-    @addresses = current_user.addresses
+    @addresses = current_user.addresses.includes(:city)
   end
 
   def new
@@ -11,7 +13,7 @@ class AddressesController < ApplicationController
 
   def create
     @address = current_user.addresses.build(address_params)
-
+    
     if @address.save
       redirect_to addresses_path, notice: 'Address was successfully created.'
     else
@@ -20,12 +22,9 @@ class AddressesController < ApplicationController
   end
 
   def edit
-    @address = current_user.addresses.find(params[:id])
   end
 
   def update
-    @address = current_user.addresses.find(params[:id])
-
     if @address.update(address_params)
       redirect_to addresses_path, notice: 'Address was successfully updated.'
     else
@@ -34,15 +33,20 @@ class AddressesController < ApplicationController
   end
 
   def destroy
-    @address = current_user.addresses.find(params[:id])
     @address.destroy
-
-    redirect_to addresses_path, notice: 'Address was successfully destroyed.'
+    redirect_to addresses_path, notice: 'Address was successfully removed.'
   end
 
   private
 
+  def set_address
+    @address = current_user.addresses.find(params[:id])
+  rescue ActiveRecord::RecordNotFound
+    redirect_to addresses_path, alert: 'Address not found.'
+  end
+
   def address_params
-    params.require(:address).permit(:house, :area, :place, :pincode, :address_type, :city_id)
+    params.require(:address).permit(:house, :area, :place, :pincode, 
+                                  :address_type, :city_id)
   end
 end

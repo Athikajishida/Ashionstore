@@ -3,7 +3,7 @@ class User < ApplicationRecord
   def blocked?
     blocked
   end
-  has_many :addresses
+  has_many :addresses, dependent: :destroy
   has_one :cart
   has_many :wishlists
   has_many :orders

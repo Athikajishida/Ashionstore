@@ -1,0 +1,25 @@
+<div class="col-lg-4">
+  <div class="checkout__order">
+    <h5>Account Settings</h5>
+    <div class="checkout__order__product">
+      <ul>
+        <li>Profile Information</li>
+        <li><%= link_to 'Manage Addresses', addresses_path, class: 'active' %></li>
+      </ul>
+    </div>
+
+    <div class="checkout__order__total">
+      <h5>My Stuff</h5>
+      <ul>
+        <li><%= link_to 'My Orders', orders_path %></li>
+        <li><%= link_to 'My Wishlist', wishlist_path %></li>
+      </ul>
+    </div>
+
+    <%= button_to "Logout", 
+        destroy_user_session_path, 
+        method: :delete, 
+        class: "site-btn",
+        data: { confirm: "Are you sure you want to logout?" } %>
+  </div>
+</div>

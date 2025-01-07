@@ -88,71 +88,83 @@
     <!-- Checkout Section End -->
 
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-    <script>
-        $('#new-address-btn').on('click', function () {
-            $('#new-address-form').show();
-            $('#address-section').hide();
+   <script>
+    $('#new-address-btn').on('click', function (e) {
+        e.preventDefault(); // Prevent default button behavior
+        // Load the new address form via AJAX
+        $.ajax({
+            url: '<%= new_address_path %>', // Make sure this route is set up
+            type: 'GET',
+            success: function(response) {
+                // Replace the content of new-address-form with the loaded form
+                $('#new-address-form').html(response).show();
+                $('#address-section').hide();
+            },
+            error: function(xhr, status, error) {
+                console.error('Error loading new address form:', error);
+            }
         });
+    });
 
-        $('input[type="checkbox"]').change(function () {
-            var paymentMethod = $(this).attr('id');
-            $('#order-payment-method').val(paymentMethod);
-        });
+    $('input[type="checkbox"]').change(function () {
+        var paymentMethod = $(this).attr('id');
+        $('#order-payment-method').val(paymentMethod);
+    });
 
-        var discountedTotal = sessionStorage.getItem('cartDiscountedTotal');
-        // Set the retrieved discounted total in the cart-discounted-total span
-        $('#cart-discounted-total').text('$' + discountedTotal);
-        $('#order-discounted-total').val(discountedTotal);
+    var discountedTotal = sessionStorage.getItem('cartDiscountedTotal');
+    // Set the retrieved discounted total in the cart-discounted-total span
+    $('#cart-discounted-total').text('$' + discountedTotal);
+    $('#order-discounted-total').val(discountedTotal);
 
-        // Ajax to save new address
-        $('#save-address-btn').on('click', function () {
-            var newAddressData = {
-                line1: $('#new-address-line1').val(),
-                // Add more fields as needed
-            };
-
-            $.ajax({
-                type: 'POST',
-                url: '/addresses', // Adjust the route accordingly
-                data: newAddressData,
-                dataType: 'json',
-                success: function (response) {
-                    // Assuming the server sends the new address id in the response
-                    var newAddressId = response.address_id;
+    // Delegate event for dynamically loaded form submission
+    $(document).on('submit', '#new_address', function(e) {
+        e.preventDefault(); // Prevent default form submission
+        
+        var formData = $(this).serialize();
+        
+        $.ajax({
+            type: 'POST',
+            url: '<%= addresses_path %>', // Route to create a new address
+            data: formData,
+            dataType: 'json',
+            success: function (response) {
+                if (response.address) {
                     // Update the existing addresses dropdown
-                    $('#address-dropdown').append($('<option>', { value: newAddressId, text: 'New Address' }));
+                    $('#address-dropdown').append($('<option>', { 
+                        value: response.address.id, 
+                        text: response.address.full_address 
+                    }));
                     // Set the selected option to the newly created address
-                    $('#address-dropdown').val(newAddressId);
+                    $('#address-dropdown').val(response.address.id);
                     // Hide the new address form
                     $('#new-address-form').hide();
                     $('#address-section').show();
-                },
-                error: function (xhr, status, error) {
-                    console.error('Ajax Error: ' + error);
                 }
-            });
+            },
+            error: function (xhr, status, error) {
+                console.error('Ajax Error: ' + error);
+            }
         });
+    });
 
-$(document).ready(function() {
-  // Listen for checkbox changes
-  $('input[type="checkbox"]').change(function() {
-    var paymentMethod = $(this).attr('id');
-
-    // Hide all payment method forms initially
-    $('#razorpay-form-container').hide();
-
-    // Show the Razorpay form if the Razorpay checkbox is selected
-    if (paymentMethod === 'razorpay' && $(this).is(':checked')) {
-      $.ajax({
-        url: '<%= create_order_checkout_path %>',
-        type: 'GET',
-        data: { payment_method: 'razorpay' },
-        success: function(response) {
-          $('#razorpay-form-container').html(response);
-          $('#razorpay-form-container').show();
-        }
-      });
-    }
-  });
-});
+    $(document).ready(function() {
+        // Listen for checkbox changes
+        $('input[type="checkbox"]').change(function() {
+            var paymentMethod = $(this).attr('id');
+            // Hide all payment method forms initially
+            $('#razorpay-form-container').hide();
+            // Show the Razorpay form if the Razorpay checkbox is selected
+            if (paymentMethod === 'razorpay' && $(this).is(':checked')) {
+                $.ajax({
+                    url: '<%= create_order_checkout_path %>',
+                    type: 'GET',
+                    data: { payment_method: 'razorpay' },
+                    success: function(response) {
+                        $('#razorpay-form-container').html(response);
+                        $('#razorpay-form-container').show();
+                    }
+                });
+            }
+        });
+    });
 </script>
