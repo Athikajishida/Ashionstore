@@ -28,13 +28,14 @@
                                   <td class="cart__price">$ <%= cart_item.product.price %></td>
                                   <td class="cart__quantity">
                                     <div class="pro-qty">
-                                      <input type="text" value="<%= cart_item.quantity %>">
+                                      <input type="text" value="<%= cart_item.quantity %>" id="quantity_<%= cart_item.id %>">
                                     </div>
                                     </td>
                                     <td class="cart__total">$ <%= (cart_item.product.price.to_f * cart_item.quantity.to_i).round(2) %>
-</td>
+                                    </td>
                                     <td class="cart__close">
                                     <span class="icon_close" data-cart-item-id="<%= cart_item.id %>"></span>
+                                    
                                     </td>                                </tr>
                                 <% end %>
                             </tbody>
@@ -137,6 +138,21 @@ $('#apply-coupon').on('click', function() {
     }
   });
 });
+ $('.icon_close').on('click', function () {
+  var cartItemId = $(this).data('cart-item-id');
+  console.log('Cart Item ID:', cartItemId); // Log the cart item ID
+  $.ajax({
+    type: 'DELETE',
+    url: '/cart_items/' + cartItemId,
+    success: function (response) {
+      // Handle success and error responses
+    },
+    error: function () {
+      alert('Error: Something went wrong.');
+    }
+  });
+});
+
 $('#proceed-to-checkout-link').on('click', function(event) {
   event.preventDefault(); 
   var discountedTotalValue = sessionStorage.getItem('cartDiscountedTotal');

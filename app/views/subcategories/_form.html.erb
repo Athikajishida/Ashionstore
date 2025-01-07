@@ -1,34 +1,37 @@
-<%= form_with(model: @subcategory, local: true) do |form| %>
-  <% if @subcategory.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@subcategory.errors.count, 'error') %> prohibited this subcategory from being saved:</h2>
 
-      <ul>
-        <% @subcategory.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
+      <%= form_with(model: @subcategory, local: true) do |form| %>
+      <% if @subcategory.errors.any? %>
+        <div id="error_explanation">
+          <h2><%= pluralize(@subcategory.errors.count, 'error') %> prohibited this subcategory from being saved:</h2>
+
+          <ul>
+            <% @subcategory.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+      
+    <div class="row mt-2">
+      <div class="col-md-6">
+        <div class="form_group">
+        <%= form.label :name %>
+        <%= form.text_field :name %>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form_group">
+        <%= form.label :category_id %>
+        <%= form.collection_select :category_id, @categories, :id, :category_name, prompt: 'Select Category' %>
+      </div>
+      <div class="col-12 text-center">
+        <%= form.submit class:"form_btn btn_green" %>
+        <%= link_to subcategories_path, class: "form_btn btn_warning text-decoration-none" do %>
+        Back
         <% end %>
-      </ul>
+      </div>
     </div>
-  <% end %>
-  
-<div class="row mt-2">
-  <div class="col-md-6">
-    <div class="form_group">
-    <%= form.label :name %>
-    <%= form.text_field :name %>
-    </div>
-  </div>
-  <div class="col-md-6">
-    <div class="form_group">
-     <%= form.label :category_id %>
-    <%= form.collection_select :category_id, @categories, :id, :category_name, prompt: 'Select Category' %>
-  </div>
-  <div class="col-12 text-center">
-    <%= form.submit class:"form_btn btn_green" %>
-    <%= link_to subcategories_path, class: "form_btn btn_warning text-decoration-none" do %>
-    Back
     <% end %>
-  </div>
 </div>
-<% end %>
+</div>
 <script src="assets/script/script.js"></script>

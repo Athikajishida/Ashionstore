@@ -4,3 +4,5 @@ import "controllers"
 import * as bootstrap from "bootstrap"
 //= require jquery
 //= require jquery_ujs
+//= require sweetalert
+import Swal from "sweetalert2"

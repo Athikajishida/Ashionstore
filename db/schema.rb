@@ -59,7 +59,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_11_043603) do
   create_table "cart_items", force: :cascade do |t|
     t.bigint "cart_id", null: false
     t.bigint "product_id", null: false
-    t.integer "quantity"
+    t.integer "quantity", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["cart_id"], name: "index_cart_items_on_cart_id"
@@ -165,10 +165,10 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_11_043603) do
   end
 
   create_table "subcategories", force: :cascade do |t|
+    t.string "name"
+    t.bigint "category_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "category_id", null: false
-    t.string "name"
     t.index ["category_id"], name: "index_subcategories_on_category_id"
   end
 

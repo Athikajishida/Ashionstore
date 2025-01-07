@@ -27,8 +27,9 @@ Rails.application.configure do
   # config.assets.css_compressor = :sass
 
   # Do not fall back to assets pipeline if a precompiled asset is missed.
-  config.assets.compile = false
-
+  config.assets.compile = true
+  config.serve_static_assets = true 
+  config.assets.digest = true
   # Enable serving of images, stylesheets, and JavaScripts from an asset server.
   # config.asset_host = "http://assets.example.com"
 
@@ -49,7 +50,7 @@ Rails.application.configure do
   # config.assume_ssl = true
 
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
-  config.force_ssl = true
+  config.force_ssl = false
 
   # Log to STDOUT by default
   config.logger = ActiveSupport::Logger.new(STDOUT)
@@ -83,7 +84,8 @@ Rails.application.configure do
 
   # Don't log any deprecations.
   config.active_support.report_deprecations = false
-  config.active_storage.service = :disk
+  # config.active_storage.service = :disk
+  config.active_storage.service = :render
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false

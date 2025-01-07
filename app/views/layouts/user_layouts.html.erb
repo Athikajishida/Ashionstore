@@ -19,15 +19,16 @@
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <!-- Css Styles -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10.16.6/dist/sweetalert2.min.css">
 
-    <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
-    <link rel="stylesheet" href="css/font-awesome.min.css" type="text/css">
-    <link rel="stylesheet" href="css/elegant-icons.css" type="text/css">
-    <link rel="stylesheet" href="css/jquery-ui.min.css" type="text/css">
-    <link rel="stylesheet" href="css/magnific-popup.css" type="text/css">
-    <link rel="stylesheet" href="css/owl.carousel.min.css" type="text/css">
-    <link rel="stylesheet" href="css/slicknav.min.css" type="text/css">
-    <link rel="stylesheet" href="css/style.css" type="text/css">
+    <%= stylesheet_link_tag "/assets/bootstrap.min.css" %>
+    <%= stylesheet_link_tag "/assets/font-awesome.min.css" %>
+    <%= stylesheet_link_tag "/assets/elegant-icons.css" %>
+    <%= stylesheet_link_tag "/assets/jquery-ui.min.css" %>
+    <%= stylesheet_link_tag "/assets/magnific-popup.css" %>
+    <%= stylesheet_link_tag "/assets/owl.carousel.min.css" %>
+    <%= stylesheet_link_tag "/assets/slicknav.min.css" %>
+    <%= stylesheet_link_tag "/assets/style.css" %>
 </head>
 
 <body>
@@ -46,16 +47,18 @@
 <!-- Search End -->
 
 <!-- Js Plugins -->
-<script src="js/jquery-3.3.1.min.js"></script>
-<script src="js/bootstrap.min.js"></script>
-<script src="js/jquery.magnific-popup.min.js"></script>
-<script src="js/jquery-ui.min.js"></script>
-<script src="js/mixitup.min.js"></script>
-<script src="js/jquery.countdown.min.js"></script>
-<script src="js/jquery.slicknav.js"></script>
-<script src="js/owl.carousel.min.js"></script>
-<script src="js/jquery.nicescroll.min.js"></script>
-<script src="js/main.js"></script>
+<%= javascript_include_tag '/assets/jquery-3.3.1.min.js' %>
+<%= javascript_include_tag '/assets/bootstrap.min.js' %>
+<%= javascript_include_tag '/assets/jquery.magnific-popup.min.js' %>
+<%= javascript_include_tag '/assets/jquery-ui.min.js' %>
+<%= javascript_include_tag '/assets/mixitup.min.js' %>
+<%= javascript_include_tag '/assets/jquery.countdown.min.js' %>
+<%= javascript_include_tag '/assets/jquery.slicknav.js' %>
+<%= javascript_include_tag '/assets/owl.carousel.min.js' %>
+
+<%= javascript_include_tag '/assets/jquery.nicescroll.min.js' %>
+<%= javascript_include_tag '/assets/main.js' %>
+
 </body>
 
 </html>

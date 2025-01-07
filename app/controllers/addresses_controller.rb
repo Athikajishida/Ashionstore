@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# Handles CRUD operations for user addresses.
 class AddressesController < ApplicationController
   before_action :authenticate_user!
   before_action :set_address, only: [:edit, :update, :destroy]

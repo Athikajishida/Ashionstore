@@ -12,7 +12,12 @@
             </a></li>
         </ul>
         <div class="offcanvas__logo">
+<<<<<<< HEAD
             <a href="<%= link_to '', root_path %>"><img src="img/logo.png" alt=""></a>
+=======
+        <a href="./index.html"><%= image_tag('/images/logo.png')%></a>
+        
+>>>>>>> bee03ee8d7649d7e484414cf53ec03fe577c4217
         </div>
         <div id="mobile-menu-wrap"></div>
         <div class="offcanvas__auth">
@@ -37,7 +42,7 @@
             <div class="row">
                 <div class="col-xl-3 col-lg-2">
                     <div class="header__logo">
-                        <a href="./index.html"><img src="img/logo.png" alt=""></a>
+         <a href="<%= root_path %>"><%= image_tag("/assets/logo.png", alt: "") %></a>
                     </div>
                 </div>
                 <div class="col-xl-6 col-lg-7">
@@ -58,7 +63,7 @@
                     <div class="header__right">
                         <div class="header__right__auth">
                              <% if user_signed_in? %>
-                                <a href="<%= edit_user_registration_path %>">Edit profile</a>
+                                <a href="<%= edit_user_registration_path %>">profile</a>
                                 <form action="<%= destroy_user_session_path %>" method="post" id="logout-form">
                                 <input type="hidden" name="_method" value="delete">
                                 <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
