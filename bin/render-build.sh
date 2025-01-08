@@ -2,6 +2,7 @@
 # exit on error
 set -o errexit
 
+export RAILS_ENV=production
 bundle install
 bundle exec rails assets:precompile
 bundle exec rails assets:clean
