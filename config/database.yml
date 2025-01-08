@@ -75,9 +75,9 @@ development:
 # variable, Rails will automatically merge its configuration values on top of
 # the values provided in this file. Alternatively, you can specify a connection
 # URL environment variable explicitly:
-
-  production:
-    url: <%= ENV["MY_APP_DATABASE_URL"] %>
+#
+#   production:
+#     url: <%= ENV["MY_APP_DATABASE_URL"] %>
 #
 # Read https://guides.rubyonrails.org/configuring.html#configuring-a-database
 # for a full overview on how database connection configuration can be specified.
@@ -87,10 +87,10 @@ production:
   adapter: postgresql
   encoding: unicode
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  database: ecommerce_765n
-  username: admin
-  password: VwDODIeoIOjfQlqBTt9OHbufzYjv5HyC
-  host: dpg-cnu4nomct0pc73e40k2g-a
+  database: ashionstore
+  username: ashionstore_user
+  password: o9mhEu6DpMrvPGh1iADzzvrivoRRmXpg
+  host: dpg-ctv3o8aj1k6c73eicbgg-a
   port: 5432
 
 # production:

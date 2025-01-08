@@ -1,7 +1,7 @@
 databases:
-  - name: Ashionstore
-    databaseName: ecommerce
-    user: 'admin'
+  - name: ashionstore
+    databaseName: ashionstore
+    user: 'ashionstore_user'
     plan: free
 
 services:
